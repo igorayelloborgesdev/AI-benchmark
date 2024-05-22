@@ -1,0 +1,42 @@
+.bolsa - yfinance
+.cdi diário - https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados?formato=json
+.IPCA diário - http://ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='PRECOS12_IPCAG12')
+.IGPM diário - http://ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='IGP12_IGPMG12')
+.SELIC diário - https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json
+.Opções/Ações - https://www.youtube.com/watch?v=vUMr1lpzm4Q
+
+-----------------------------------------------------------------------
+
+.Backend
+..Importar dados Bovespa
+..Salvar banco dados Bovespa
+..Importar dados ações
+..Salvar banco dados ações
+..Importar dados opções
+..Salvar banco dados opções
+..Importar dados cdi diário
+..Salvar banco dados cdi diário
+..Criar API ações
+..Criar API opções
+..Criar API cdi diário
+..Criar API risco Beta
+..Criar API risco índice Sharpe
+..Criar API risco perda máxima
+..Criar API risco solver
+..Criar API Salvar estratégia
+..Stop gain/ stop loss
+..Ganhos/ perdas acumuladas
+
+.Frontend
+..Gráfico ações
+..Gráfico opções
+..Comparação cdi
+..Análise de risco
+..Análise de risco Beta
+..Análise de risco índice Sharpe
+..Análise de risco perda máxima
+..Análise de risco solver
+..Montar estratégia
+..Salvar estratégia
+..Stop gain/ stop loss
+..Ganhos/ perdas acumuladas
