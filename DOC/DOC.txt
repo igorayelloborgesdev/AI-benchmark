@@ -65,6 +65,7 @@ Ferramentas
 .CSS pre-processor SASS
 .CypressJS
 .Clean Code
+.Sonarqube
 
 Ferramenta de avaliação
 .Sonarqube
