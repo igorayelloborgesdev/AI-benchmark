@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # db:
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   container_name: sqlserver_db
+  #   environment:
+  #     SA_PASSWORD: "YourPassword123"
+  #     ACCEPT_EULA: "Y"
+  #   ports:
+  #     - "1434:1433"
+  #   volumes:
+  #     - sqlserver_data:/var/opt/mssql
+
+  app:
+    image: back-app-deepseek
+    build: .
+    container_name: fastapi_DeepSeek_app
+    ports:
+      - "8000:8000"
+    environment:
+      DB_SERVER: "db"  # Nome do serviço do banco de dados no docker-compose
+      DB_PORT: "1433"
+      DB_NAME: "localhost"
+      DB_USER: "sa"
+      DB_PASSWORD: "YourPassword123"
+    # depends_on:
+    #   - db
+
+volumes:
+  sqlserver_data:

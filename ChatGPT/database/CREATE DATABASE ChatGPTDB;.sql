@@ -1,0 +1,3 @@
+CREATE DATABASE ChatGPTDB;
+SELECT name
+FROM sys.databases;
