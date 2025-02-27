@@ -17,10 +17,11 @@
 docker-compose up --build
 
 .Backend
-..Importar dados Bovespa<-
-..Salvar banco dados Bovespa
+..Salvar banco dados Bovespa<-
+
 ..Importar dados ações
 ..Salvar banco dados ações
+
 ..Importar dados opções
 ..Salvar banco dados opções
 ..Importar dados cdi diário
