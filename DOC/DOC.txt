@@ -14,11 +14,17 @@
 
 -----------------------------------------------------------------------
 
+.Excluir todos os bancos de dados
+.Usar apenas um script para gerar 5 bancos
+.Usar apenas uma estrutura de pastas para a clean archtecture
+.Instalar FastAPI, Docker, VSCode e Debug
+
+-----------------------------------------------------------------------
+
 docker-compose up --build
 
 .Backend
 ..Salvar banco dados Bovespa<-
-
 ..Importar dados ações
 ..Salvar banco dados ações
 
