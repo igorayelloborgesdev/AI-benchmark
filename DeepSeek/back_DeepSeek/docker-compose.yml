@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: app-deepseek
+    image: app-deepseek
+    build: .
+    ports:
+      - "8002:8002"

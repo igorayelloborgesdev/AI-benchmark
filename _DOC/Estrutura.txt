@@ -1,0 +1,114 @@
+Para aplicar a Clean Architecture em uma aplicação backend em Python usando FastAPI para um simulador da bolsa de valores, a estrutura de pastas precisa separar as diferentes camadas de responsabilidade. Aqui está uma sugestão de estrutura de pastas:
+
+```
+/app
+    /core
+        __init__.py
+        config.py
+    /domain
+        /models
+            __init__.py
+            user.py
+            stock.py
+        /repositories
+            __init__.py
+            user_repository.py
+            stock_repository.py
+        /services
+            __init__.py
+            user_service.py
+            stock_service.py
+    /application
+        /interfaces
+            __init__.py
+            user_interface.py
+            stock_interface.py
+        /use_cases
+            __init__.py
+            create_user.py
+            create_stock.py
+            get_user.py
+            get_stock.py
+    /infrastructure
+        /database
+            __init__.py
+            db.py
+        /repositories
+            __init__.py
+            sqlalchemy_user_repository.py
+            sqlalchemy_stock_repository.py
+    /api
+        __init__.py
+        deps.py
+        /v1
+            __init__.py
+            user.py
+            stock.py
+    /tests
+        __init__.py
+        test_user.py
+        test_stock.py
+    main.py
+    requirements.txt
+    Dockerfile
+    .env
+    README.md
+```
+
+### Explicação da Estrutura:
+
+1. **`/core`**: Configurações essenciais da aplicação, como variáveis de ambiente e configurações do banco de dados.
+
+2. **`/domain`**: Contém as entidades do domínio (modelos), interfaces dos repositórios e serviços de negócios:
+    - **`models`**: Define as classes de modelo.
+    - **`repositories`**: Define interfaces de repositórios.
+    - **`services`**: Lógica de negócios central.
+
+3. **`/application`**: Lida com casos de uso específicos e interfaces de entrada/saída:
+    - **`interfaces`**: Define interfaces de entrada/saída.
+    - **`use_cases`**: Implementa os casos de uso específicos da aplicação.
+
+4. **`/infrastructure`**: Implementações técnicas específicas, como repositórios que interagem com o banco de dados:
+    - **`database`**: Configuração do banco de dados.
+    - **`repositories`**: Implementações dos repositórios (por exemplo, SQLAlchemy).
+
+5. **`/api`**: Contém as rotas da API, organizadas em versões (por exemplo, `v1`).
+
+6. **`/tests`**: Contém testes para sua aplicação.
+
+7. **`main.py`**: O ponto de entrada para iniciar a aplicação FastAPI.
+
+8. **`requirements.txt`**: Lista de dependências Python necessárias para a aplicação.
+
+9. **`Dockerfile`**: Arquivo de configuração para criação de um contêiner Docker.
+
+10. **`.env`**: Arquivo de variáveis de ambiente, que pode ser carregado pelo `config.py` em `/core`.
+
+11. **`README.md`**: Descrição do projeto e instruções para desenvolvedores.
+
+Espero que isso ajude! Qualquer dúvida ou se precisar de mais detalhes, estou aqui para ajudar. 📈💻
+
+/app
+    /core
+        __init__.py
+    /domain
+        /models
+            __init__.py
+        /repositories
+            __init__.py
+        /services
+            __init__.py
+    /application
+        /interfaces
+            __init__.py
+        /use_cases
+            __init__.py
+    /infrastructure
+        /database
+            __init__.py
+        /repositories
+            __init__.py
+    /api
+        __init__.py
+        /v1
+            __init__.py

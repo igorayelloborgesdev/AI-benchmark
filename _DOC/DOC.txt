@@ -1,0 +1,93 @@
+.bolsa - yfinance
+.cdi diário - https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados?formato=json
+.IPCA diário - http://ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='PRECOS12_IPCAG12')
+.IGPM diário - http://ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='IGP12_IGPMG12')
+.SELIC diário - https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json
+.Opções/Ações - https://www.youtube.com/watch?v=vUMr1lpzm4Q
+.Série histórica - https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/cotacoes-historicas/
+
+.Copiltot https://copilot.microsoft.com/chats/Ju2uAVuQ9z8AhasGYxvYP
+.ChatGPT https://chatgpt.com/c/6786c706-50ec-800d-9368-b72e6e720262
+.DeepSeek https://chat.deepseek.com/a/chat/s/a20d1e48-4701-4e51-89c4-4022487c048a
+.Gemini https://gemini.google.com/app?hl=pt-BR
+.Meta AI https://www.meta.ai/
+
+-----------------------------------------------------------------------
+
+.Excluir todos os bancos de dados
+.Usar apenas um script para gerar 5 bancos
+.Usar apenas uma estrutura de pastas para a clean archtecture
+.Instalar FastAPI, Docker, VSCode e Debug
+
+-----------------------------------------------------------------------
+
+docker-compose down
+docker-compose up --build
+
+.Backend
+..Salvar banco dados Bovespa<-
+..Importar dados ações
+..Salvar banco dados ações
+
+..Importar dados opções
+..Salvar banco dados opções
+..Importar dados cdi diário
+..Salvar banco dados cdi diário
+..Criar API ações
+..Criar API opções
+..Criar API cdi diário
+..Criar API risco Beta
+..Criar API risco índice Sharpe
+..Criar API risco perda máxima
+..Criar API risco solver
+..Criar API Salvar estratégia
+..Stop gain/ stop loss
+..Ganhos/ perdas acumuladas
+..Salvar estratégia
+..Criar API estratégia
+..Salvar ganhos/perdas
+..Criar ganhos/perdas
+
+.Frontend
+..Gráfico ações candlebar
+..Gráfico opções
+..Indicador Bandas de Bollinger
+..Indicador MACD – Moving Average Convergence and Divergence
+..Índice de Força Relativa – IFR ou RSI
+..Comparação cdi
+..Análise de risco
+..Análise de risco Beta
+..Análise de risco índice Sharpe
+..Análise de risco perda máxima
+..Análise de risco solver
+..Montar estratégia
+..Salvar estratégia
+..Stop gain/ stop loss
+..Ganhos/ perdas acumuladas
+
+Ferramentas
+.Docker
+.Sql server
+.Python
+.Teste unitário UnitTest
+.Django
+.ReactJS
+.CSS pre-processor SASS
+.CypressJS
+.Clean Code
+.Sonarqube
+
+Ferramenta de avaliação
+.Sonarqube
+..Métricas avaliadas
+...Bugs
+...Vulnerabilidades
+...Code Smells
+...Cobertura de Testes
+...Complexidade do Código
+...Métricas de Desempenho
+...Tamanho do Código
+...Conformidade com Padrões de Codificação
+...Segurança
+...Qualidade Geral do Código
+...Débito Técnico
