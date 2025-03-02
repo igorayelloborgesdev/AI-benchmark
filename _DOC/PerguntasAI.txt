@@ -1,0 +1,9 @@
+Como criar uma API na FastAPI que leia um arquivo em Excel,
+leia os dados da coluna A da linha 521 até a linha 529 e salve na tabela 
+CREATE TABLE dbo.SegmentoClassificacao (
+    ID INT IDENTITY(1,1) PRIMARY KEY,  -- Chave primária autoincrementada
+    Sigla VARCHAR(10) NOT NULL,        -- Sigla extraída dos parênteses
+    Descritivo VARCHAR(255) NOT NULL   -- Texto após os parênteses
+);
+sendo que o registro na planilha está da seguinte forma (DR1) BDR Nível 1,
+o que está dentro do parenteses DR1 deve ser salvo na coluna Sigla do banco o que está depois do parenteses ) deve ser salvo na coluna descritivo

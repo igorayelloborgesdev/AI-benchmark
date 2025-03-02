@@ -22,17 +22,17 @@
 -----------------------------------------------------------------------
 
 docker-compose down
-docker-compose up --build
+docker-compose up --build -d
 
 .Backend
 ..Salvar banco dados Bovespa<-
 ..Importar dados ações
 ..Salvar banco dados ações
-
 ..Importar dados opções
 ..Salvar banco dados opções
 ..Importar dados cdi diário
 ..Salvar banco dados cdi diário
+
 ..Criar API ações
 ..Criar API opções
 ..Criar API cdi diário
@@ -47,6 +47,10 @@ docker-compose up --build
 ..Criar API estratégia
 ..Salvar ganhos/perdas
 ..Criar ganhos/perdas
+
+---------------------------------------------------
+
+Em análise
 
 .Frontend
 ..Gráfico ações candlebar
@@ -64,18 +68,6 @@ docker-compose up --build
 ..Salvar estratégia
 ..Stop gain/ stop loss
 ..Ganhos/ perdas acumuladas
-
-Ferramentas
-.Docker
-.Sql server
-.Python
-.Teste unitário UnitTest
-.Django
-.ReactJS
-.CSS pre-processor SASS
-.CypressJS
-.Clean Code
-.Sonarqube
 
 Ferramenta de avaliação
 .Sonarqube
