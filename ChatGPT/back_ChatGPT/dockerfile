@@ -1,24 +1,9 @@
-FROM python:3.9-slim
-
-# Instalar pacotes necessários, incluindo bibliotecas ODBC
-RUN apt-get update && apt-get install -y \
-    curl \
-    apt-transport-https \
-    ca-certificates \
-    gnupg2 \
-    lsb-release \
-    unixodbc \
-    unixodbc-dev \
-    && rm -rf /var/lib/apt/lists/*
+FROM python:3.8-slim
 
 WORKDIR /app
 
 COPY . /app
 
-# Copiar o arquivo requirements.txt para dentro do container
-COPY requirements.txt /app/requirements.txt
-
-# Instalar as dependências do Python
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --no-cache-dir fastapi uvicorn
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
