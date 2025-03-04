@@ -1,9 +1,0 @@
-version: '3.8'
-
-services:
-  web:
-    container_name: app-copilot
-    image: app-copilot
-    build: .
-    ports:
-      - "8001:8001"

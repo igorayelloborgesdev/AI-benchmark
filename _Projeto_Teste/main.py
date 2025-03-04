@@ -35,3 +35,15 @@ def read_segmento():
     rows = cursor.fetchall()
     result = [{"SegmentoID": row[0], "Nome": row[1]} for row in rows]
     return {"segmentos": result}
+
+@app.post("/segmento")
+def create_segmento(segmento_id: str, nome: str):
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                          'SERVER=sqlserver;'
+                          'DATABASE=ChatGPTDB;'
+                          'UID=sa;'
+                          'PWD=Your_password123')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO dbo.SegmentoClassificacao (Sigla, Descritivo) VALUES (?, ?)", (segmento_id, nome))
+    conn.commit()
+    return {"message": "Segmento inserido com sucesso"}
