@@ -1,7 +1,5 @@
 {
-    "http.proxyStrictSSL": false,
     "sqltools.connections": [
-        
         {
             "connectionTimeout": 15,
             "mssqlOptions": {
@@ -14,9 +12,9 @@
             "server": "localhost",
             "port": 1433,
             "driver": "MSSQL",
-            "name": "localhost",
+            "name": "sqlserver",
             "username": "sa",
-            "password": "YourPassword123"
+            "password": "Your_password123"
         }
     ]
 }
