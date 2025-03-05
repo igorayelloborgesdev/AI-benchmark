@@ -23,7 +23,6 @@
 
 docker-compose down
 docker-compose up --build -d
-
 SQL SERVER
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Your_password123" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server
 
