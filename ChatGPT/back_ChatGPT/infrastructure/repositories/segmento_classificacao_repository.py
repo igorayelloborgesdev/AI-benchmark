@@ -17,3 +17,54 @@ class SegmentoClassificacaoRepository(ISegmentoClassificacaoRepository):
         conn.commit()
         conn.close()
         return len(data)
+        
+    def insert_many_setor_economico(self, data: List[str]) -> int:        
+        """Insere múltiplos registros na tabela SetorEconomico."""
+        if not data:
+            return 0  # Nenhum dado para inserir
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = "INSERT INTO dbo.[SetorEconomico] (Descritivo) VALUES (?)"
+        cursor.executemany(query, [(d,) for d in data])
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return len(data)  # Retorna o número de registros inseridos
+    
+    def insert_many_subsetor(self, data: List[str]) -> int:        
+        """Insere múltiplos registros na tabela SetorEconomico."""
+        if not data:
+            return 0  # Nenhum dado para inserir
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = "INSERT INTO dbo.Subsetor (Descritivo) VALUES (?)"
+        cursor.executemany(query, [(d,) for d in data])
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return len(data)  # Retorna o número de registros inseridos
+    
+    def insert_many_segmento_economico(self, data: List[str]) -> int:        
+        """Insere múltiplos registros na tabela SetorEconomico."""
+        if not data:
+            return 0  # Nenhum dado para inserir
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = "INSERT INTO dbo.Segmento (Descritivo) VALUES (?)"
+        cursor.executemany(query, [(d,) for d in data])
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return len(data)  # Retorna o número de registros inseridos

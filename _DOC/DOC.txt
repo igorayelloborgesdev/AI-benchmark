@@ -12,12 +12,8 @@
 .Gemini https://gemini.google.com/app?hl=pt-BR
 .Meta AI https://www.meta.ai/
 
------------------------------------------------------------------------
-
-.Excluir todos os bancos de dados
-.Usar apenas um script para gerar 5 bancos
-.Usar apenas uma estrutura de pastas para a clean archtecture
-.Instalar FastAPI, Docker, VSCode e Debug
+.Dados financeiros - https://www.reddit.com/r/investimentos/comments/oxsof7/reposit%C3%B3rio_de_fontes_de_dados/?tl=pt-br
+.Dados financeiros - https://github.com/Tpessia/dados-financeiros
 
 -----------------------------------------------------------------------
 
@@ -32,63 +28,179 @@ docker rm fastapi
 docker build -t fastapi-app .
 docker run --name fastapi --link sqlserver:sqlserver -p 80:80 -d fastapi-app
 
+---------------------------------------------------
 
-.Backend
-..Salvar banco dados Bovespa<-
-..Importar dados ações
-..Salvar banco dados ações
-..Importar dados opções
-..Salvar banco dados opções
-..Importar dados cdi diário
-..Salvar banco dados cdi diário
+Projeto final
 
-..Criar API ações
-..Criar API opções
-..Criar API cdi diário
-..Criar API risco Beta
-..Criar API risco índice Sharpe
-..Criar API risco perda máxima
-..Criar API risco solver
-..Criar API Salvar estratégia
-..Stop gain/ stop loss
-..Ganhos/ perdas acumuladas
-..Salvar estratégia
-..Criar API estratégia
-..Salvar ganhos/perdas
-..Criar ganhos/perdas
+.Ferramentas
+..Backend
+...Python
+...Fast API
+...SQL SERVER
+...Unit test
+...Docker
+..Frontend
+...ReactJS
+...Selenium
+...Tailwind
+...Unit test
+
+.Tarefas
+..Backend (API e banco de dados)
+DESENVOLVENDO...API Importar dados Setorial B3
+DESENVOLVENDO...API consultar segmento_classificacao
+DESENVOLVENDO...API consultar setor_economico
+DESENVOLVENDO...API consultar subsetor
+DESENVOLVENDO...API consultar segmento
+DESENVOLVENDO...API consultar empresas
+DESENVOLVENDO...API consultar IBovespa
+DESENVOLVENDO...API consultar CDI Mensal/ Diário
+DESENVOLVENDO...API consultar dados ação cada empresa Yahoo Finance
+DESENVOLVENDO...API consultar risco Beta
+DESENVOLVENDO...API consultar índice Sharpe
+DESENVOLVENDO...API consultar rentabilidade estimada
+DESENVOLVENDO...API consultar ação super/ sub - estimada
+DESENVOLVENDO...API consultar risco perda máxima
+
+...API consultar IPCA
+...API consultar IGPM
+...API consultar Selic
+...API consultar opções cada empresa
+...API Salvar estratégia - Compra venda ações
+...API Atualizar estratégia - Compra venda ações
+...API Salvar estratégia - Stop gain/ stop loss
+...API Atualizar estratégia - Stop gain/ stop loss
+...API consultar Ganhos/ perdas
+...API consultar correlações
+...API consultar risco X retorno
+...API consultar solver
+...API consultar investimento carteira ações
+...API consultar Markowitz - covariância
+...API consultar fronteira eficiente
+...API consultar CAPM ação (agressiva, neutra, defensiva)
+
+..Frontend
+...Gráfico ações candlebar
+...Gráfico opções
+...Indicador Bandas de Bollinger
+...Indicador MACD – Moving Average Convergence and Divergence
+...Índice de Força Relativa – IFR ou RSI
+...Gráfico cdi
+...Gráfico Análise de risco
+...Gráfico Análise de risco Beta
+...Gráfico Análise de risco índice Sharpe
+...Gráfico Análise de risco perda máxima
+...Gráfico Análise de risco solver
+...Gráfico Bovespa
+...Gráfico segmento_classificacao
+...Gráfico setor_economico
+...Gráfico subsetor
+...Gráfico segmento
+...Gráfico empresas
+...Gráfico consultar IPCA
+...Gráfico consultar IGPM
+...Gráfico consultar Selic
+...Gráfico opções cada empresa
+...Gráfico risco Beta
+...Gráfico índice Sharpe
+...Gráfico risco perda máxima
+...Gráfico estratégia - Compra venda ações
+...Salvar estratégia - Compra venda ações
+...Atualizar estratégia - Compra venda ações
+...Salvar estratégia - Stop gain/ stop loss
+...Atualizar estratégia - Stop gain/ stop loss
+...Gráfico Ganhos/ perdas
+...Gráfico correlações
+...Gráfico risco X retorno
+...Gráfico rentabilidade estimada
+...Gráfico ação super/ sub - estimada
+...Gráfico investimento carteira ações
+...Gráfico Markowitz - covariância
+...Gráfico fronteira eficiente
+...Gráfico CAPM ação (agressiva, neutra, defensiva)
+...Montar estratégia
+...Salvar estratégia
 
 ---------------------------------------------------
 
-Em análise
+DESENVOLVENDO
 
-.Frontend
-..Gráfico ações candlebar
-..Gráfico opções
-..Indicador Bandas de Bollinger
-..Indicador MACD – Moving Average Convergence and Divergence
-..Índice de Força Relativa – IFR ou RSI
-..Comparação cdi
-..Análise de risco
-..Análise de risco Beta
-..Análise de risco índice Sharpe
-..Análise de risco perda máxima
-..Análise de risco solver
-..Montar estratégia
-..Salvar estratégia
-..Stop gain/ stop loss
-..Ganhos/ perdas acumuladas
+.Copiltot 
+API Importar dados Setorial B3
+API consultar segmento_classificacao
+API consultar setor_economico
+API consultar subsetor
+API consultar segmento
+API consultar empresas
+API consultar IBovespa
+API consultar CDI Mensal/ Diário
+API consultar dados ação cada empresa Yahoo Finance
+API consultar risco Beta
+API consultar índice Sharpe
+API consultar rentabilidade estimada
+API consultar ação super/ sub - estimada
+API consultar risco perda máxima
 
-Ferramenta de avaliação
-.Sonarqube
-..Métricas avaliadas
-...Bugs
-...Vulnerabilidades
-...Code Smells
-...Cobertura de Testes
-...Complexidade do Código
-...Métricas de Desempenho
-...Tamanho do Código
-...Conformidade com Padrões de Codificação
-...Segurança
-...Qualidade Geral do Código
-...Débito Técnico
+.ChatGPT 
+API Importar dados Setorial B3
+API consultar segmento_classificacao
+API consultar setor_economico
+API consultar subsetor
+API consultar segmento
+API consultar empresas
+API consultar IBovespa
+API consultar CDI Mensal/ Diário
+API consultar dados ação cada empresa Yahoo Finance
+API consultar risco Beta
+API consultar índice Sharpe
+API consultar rentabilidade estimada
+API consultar ação super/ sub - estimada
+API consultar risco perda máxima
+
+.DeepSeek 
+API Importar dados Setorial B3
+API consultar segmento_classificacao
+API consultar setor_economico
+API consultar subsetor
+API consultar segmento
+API consultar empresas
+API consultar IBovespa
+API consultar CDI Mensal/ Diário
+API consultar dados ação cada empresa Yahoo Finance
+API consultar risco Beta
+API consultar índice Sharpe
+API consultar rentabilidade estimada
+API consultar ação super/ sub - estimada
+API consultar risco perda máxima
+
+.Gemini 
+API Importar dados Setorial B3
+API consultar segmento_classificacao
+API consultar setor_economico
+API consultar subsetor
+API consultar segmento
+API consultar empresas
+API consultar IBovespa
+API consultar CDI Mensal/ Diário
+API consultar dados ação cada empresa Yahoo Finance
+API consultar risco Beta
+API consultar índice Sharpe
+API consultar rentabilidade estimada
+API consultar ação super/ sub - estimada
+API consultar risco perda máxima
+
+.Meta AI 
+API Importar dados Setorial B3
+API consultar segmento_classificacao
+API consultar setor_economico
+API consultar subsetor
+API consultar segmento
+API consultar empresas
+API consultar IBovespa
+API consultar CDI Mensal/ Diário
+API consultar dados ação cada empresa Yahoo Finance
+API consultar risco Beta
+API consultar índice Sharpe
+API consultar rentabilidade estimada
+API consultar ação super/ sub - estimada
+API consultar risco perda máxima

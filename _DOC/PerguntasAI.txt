@@ -7,3 +7,63 @@ CREATE TABLE dbo.SegmentoClassificacao (
 );
 sendo que o registro na planilha está da seguinte forma (DR1) BDR Nível 1,
 o que está dentro do parenteses DR1 deve ser salvo na coluna Sigla do banco o que está depois do parenteses ) deve ser salvo na coluna descritivo
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como criar um método  que leia um arquivo em Excel,
+leia os dados da coluna B da linha 9 até a linha 509 e salve na tabela 
+CREATE TABLE dbo.[SetorEconomico] (
+    ID INT IDENTITY(1,1) PRIMARY KEY,  -- Chave primária autoincrementada
+    Descritivo VARCHAR(255) NOT NULL   -- Nome do setor econômico
+);
+
+sendo que deve-se desconsiderar as células que estejam com o valor SUBSETOR ou valores em branco
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como criar um método que leia um arquivo em Excel, na coluna C das linhas 8 até 520 sendo que precisa desconsiderar a célula com o valor 'SEGMENTO' e o conteúdo da coluna D tem que estar vazia
+CREATE TABLE dbo.Segmento (
+    ID INT IDENTITY(1,1) PRIMARY KEY,  -- Chave primária autoincrementada
+    Descritivo VARCHAR(255) NOT NULL   -- Nome do segmento
+);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Preciso inserir dados na tabela abaixo sendo que os dados vem de uma planilha em Excel e na coluna nome o conteúdo está na coluna C da planilha da linha 8 até a 520 desconsiderando as celulas com o valor SEGMENTO
+e precisa ter algum conteúdo na coluna D, a coluna D da planilha tem o conteudo que será salvo na coluna Codigo.
+Sobre a SegmentoClassificacaoID o conteudo está na coluna E da planilha porém o valor pode estar vazio, quando não for vazio ela terá a sigla que corresponde a coluna Sigla na tabela dbo.SegmentoClassificacao e a partir
+dessa sigla deverá trazer o id correspondente
+Sobre a SetorEconomicoID o conteudo está na coluna A e ele deve ser a primeira célula acima da linha que contenha um valor não nulo e diferente da palavra 'SETOR ECONÔMICO' ela terá o Descritivo que corresponde a coluna Descritivo 
+na tabela dbo.[SetorEconomico] e a partir desse Descritivo deverá trazer o id correspondente
+Sobre a SubsetorID o conteudo está na coluna B e ele deve ser a primeira célula acima da linha que contenha um valor não nulo e diferente da palavra 'SUBSETOR' ela terá o Descritivo que corresponde a coluna Descritivo 
+na tabela dbo.Subsetor e a partir desse Descritivo deverá trazer o id correspondente
+Sobre a SegmentoID o conteudo está na coluna C e ele deve ser a primeira célula acima da linha que contenha um valor não nulo e diferente da palavra 'SEGMENTO' e que tenha um valor nulo na coluna D 
+ela terá o Descritivo que corresponde a coluna Descritivo na tabela dbo.Segmento e a partir desse Descritivo deverá trazer o id correspondente
+
+
+CREATE TABLE dbo.Empresa (
+    ID INT IDENTITY(1,1) PRIMARY KEY,  -- Chave primária autoincrementada
+    Nome VARCHAR(255) NOT NULL,         -- Nome da empresa
+    Codigo VARCHAR(50) NOT NULL,        -- Código/Sigla da empresa
+    
+    -- Chaves estrangeiras
+    SegmentoClassificacaoID INT NULL,   -- FK opcional (NÃO obrigatória)
+    SetorEconomicoID INT NOT NULL,      -- FK obrigatória
+    SubsetorID INT NOT NULL,            -- FK obrigatória
+    SegmentoID INT NOT NULL,            -- FK obrigatória
+
+    -- Definição das chaves estrangeiras
+    CONSTRAINT FK_Empresa_SegmentoClassificacao FOREIGN KEY (SegmentoClassificacaoID) 
+        REFERENCES dbo.SegmentoClassificacao(ID),
+    
+    CONSTRAINT FK_Empresa_SetorEconomico FOREIGN KEY (SetorEconomicoID) 
+        REFERENCES dbo.SetorEconomico(ID),
+    
+    CONSTRAINT FK_Empresa_Subsetor FOREIGN KEY (SubsetorID) 
+        REFERENCES dbo.Subsetor(ID),
+    
+    CONSTRAINT FK_Empresa_Segmento FOREIGN KEY (SegmentoID) 
+        REFERENCES dbo.Segmento(ID)
+);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------

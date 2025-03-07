@@ -12,10 +12,18 @@ class ProcessExcelUseCase(IProcessExcelUseCase):
 
     async def execute(self, file: UploadFile) -> List[Tuple[str, str]]:
         """Executa a lógica de processamento chamando o serviço."""        
-        segmentoLista = await self.excel_service.process_excel(file, 521, 529, 0)
+        df = await self.excel_service.get_dataframe(file)
+        setorLista = await self.excel_service.process_excel(df)
         
-        if not segmentoLista:
+        if not setorLista:
             raise HTTPException(status_code=400, detail="Nenhum dado válido encontrado no arquivo.")
 
-        # Insere os dados no banco usando o repositório
-        inserted_count = self.repository.insert_many(segmentoLista)
+        # # Insere os dados no banco usando o repositório
+        # self.repository.insert_many(setorLista['segmento'])
+        # self.repository.insert_many_setor_economico(setorLista['setor_economico'])
+        # self.repository.insert_many_subsetor(setorLista['subsetor'])
+        # self.repository.insert_many_segmento_economico(setorLista['segmento_economico'])
+
+        empresas = await self.excel_service.extract_empresas(df)
+        print(empresas)
+
