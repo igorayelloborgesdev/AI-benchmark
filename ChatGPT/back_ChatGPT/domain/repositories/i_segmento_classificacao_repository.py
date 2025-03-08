@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 class ISegmentoClassificacaoRepository(ABC):
     """Interface para operações no banco de dados SegmentoClassificacao."""
@@ -19,4 +19,24 @@ class ISegmentoClassificacaoRepository(ABC):
 
     @abstractmethod
     def insert_many_segmento_economico(self, data: List[str]) -> int:        
+        pass
+    
+    @abstractmethod
+    async def get_segmento_classificacao_id(self, sigla: Optional[str]) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    async def get_setor_economico_id(self, descritivo: Optional[str]) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    async def get_subsetor_id(self, descritivo: Optional[str]) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    async def get_segmento_id(self, descritivo: Optional[str]) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    async def insert_many_empresas(self, empresas: List[Tuple[str, str, Optional[int], int, int, int]]) -> int:
         pass

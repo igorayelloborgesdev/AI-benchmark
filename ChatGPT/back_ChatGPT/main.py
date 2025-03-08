@@ -6,8 +6,8 @@ from infrastructure.repositories.segmento_classificacao_repository import Segmen
 app = FastAPI()
 
 # Criando instância do serviço e do caso de uso
-excel_service = ExcelProcessorService()
 segmento_repository = SegmentoClassificacaoRepository()
+excel_service = ExcelProcessorService(segmento_repository)
 process_excel_use_case = ProcessExcelUseCase(excel_service, segmento_repository)
 
 @app.get("/")

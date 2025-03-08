@@ -6,9 +6,9 @@ from domain.repositories.i_segmento_classificacao_repository import ISegmentoCla
 
 class ProcessExcelUseCase(IProcessExcelUseCase):
     """Caso de uso para processar arquivos Excel."""
-    def __init__(self, excel_service: ExcelProcessorService, repository: ISegmentoClassificacaoRepository):
-        self.excel_service = excel_service
+    def __init__(self, excel_service: ExcelProcessorService, repository: ISegmentoClassificacaoRepository):        
         self.repository = repository  # Adicionamos o repositório como dependência
+        self.excel_service = excel_service
 
     async def execute(self, file: UploadFile) -> List[Tuple[str, str]]:
         """Executa a lógica de processamento chamando o serviço."""        
@@ -18,12 +18,5 @@ class ProcessExcelUseCase(IProcessExcelUseCase):
         if not setorLista:
             raise HTTPException(status_code=400, detail="Nenhum dado válido encontrado no arquivo.")
 
-        # # Insere os dados no banco usando o repositório
-        # self.repository.insert_many(setorLista['segmento'])
-        # self.repository.insert_many_setor_economico(setorLista['setor_economico'])
-        # self.repository.insert_many_subsetor(setorLista['subsetor'])
-        # self.repository.insert_many_segmento_economico(setorLista['segmento_economico'])
-
-        empresas = await self.excel_service.extract_empresas(df)
-        print(empresas)
+        empresas = await self.excel_service.extract_empresas(df)        
 

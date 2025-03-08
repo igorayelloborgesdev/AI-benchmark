@@ -3,9 +3,12 @@ import io
 import re
 from fastapi import HTTPException, UploadFile
 from typing import List, Tuple, Optional
+from domain.repositories.i_segmento_classificacao_repository import ISegmentoClassificacaoRepository
 
 class ExcelProcessorService:
     """Serviço para processar arquivos Excel e extrair informações específicas."""
+    def __init__(self, repository: ISegmentoClassificacaoRepository):        
+        self.repository = repository 
 
     @staticmethod
     def extract_data_from_text(text: str):
@@ -36,6 +39,12 @@ class ExcelProcessorService:
             setor_economico = await self.process_excel_setor_subsetor_segmento(df, 8, 509, 0, 'SETOR ECONÔMICO')
             subsetor = await self.process_excel_setor_subsetor_segmento(df, 8, 509, 1, 'SUBSETOR')
             segmento_economico = await self.process_excel_segmento_economico(df, 8, 520, 2, 3, 'SEGMENTO')
+
+            self.repository.insert_many(segmento)	
+            self.repository.insert_many_setor_economico(setor_economico)
+            self.repository.insert_many_subsetor(subsetor)
+            self.repository.insert_many_segmento_economico(segmento_economico)
+
             return {
                 "segmento": segmento,
                 "setor_economico": setor_economico,
@@ -117,17 +126,17 @@ class ExcelProcessorService:
             segmento = self.get_nearest_valid_segmento(df, index)  # Coluna C com D vazio
 
             # Buscar IDs no banco
-            # segmento_classificacao_id = self.empresa_repository.get_segmento_classificacao_id(segmento_classificacao)
-            # setor_economico_id = self.empresa_repository.get_setor_economico_id(setor_economico)
-            # subsetor_id = self.empresa_repository.get_subsetor_id(subsetor)
-            # segmento_id = self.empresa_repository.get_segmento_id(segmento)
+            segmento_classificacao_id = self.repository.get_segmento_classificacao_id(segmento_classificacao)
+            setor_economico_id = self.repository.get_setor_economico_id(setor_economico)
+            subsetor_id = self.repository.get_subsetor_id(subsetor)
+            segmento_id = self.repository.get_segmento_id(segmento)
 
-            # if not setor_economico_id or not subsetor_id or not segmento_id:
-            #     continue  # Se algum ID obrigatório não for encontrado, pula a linha
+            if not setor_economico_id or not subsetor_id or not segmento_id:
+                continue  # Se algum ID obrigatório não for encontrado, pula a linha
 
-            # empresas.append((nome, codigo, segmento_classificacao_id, setor_economico_id, subsetor_id, segmento_id))
-            empresas.append((nome, codigo, segmento_classificacao, setor_economico, subsetor, segmento))
-
+            empresas.append((nome, codigo, segmento_classificacao_id, setor_economico_id, subsetor_id, segmento_id))
+            
+        self.repository.insert_many_empresas(empresas)            
         return empresas
     
     def get_nearest_valid_value(self, df: pd.DataFrame, row: int, col: int, exclude_value: str) -> Optional[str]:

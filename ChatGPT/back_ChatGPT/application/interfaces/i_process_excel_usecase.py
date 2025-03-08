@@ -8,4 +8,4 @@ class IProcessExcelUseCase(ABC):
     @abstractmethod
     async def execute(self, file: UploadFile) -> List[Tuple[str, str]]:
         """Processa o arquivo Excel e retorna uma lista de tuplas (Sigla, Descritivo)."""
-        pass
+        pass    
