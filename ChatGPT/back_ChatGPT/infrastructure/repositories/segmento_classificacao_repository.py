@@ -123,3 +123,40 @@ class SegmentoClassificacaoRepository(ISegmentoClassificacaoRepository):
         conn.close()
 
         return len(empresas)
+    
+    def get_all_segmento_classificacao(self) -> List[Tuple[int, str, str]]:
+        """Busca todos os registros da tabela SegmentoClassificacao."""
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        query = "SELECT ID, Sigla, Descritivo FROM dbo.SegmentoClassificacao"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        conn.close()
+        return [(row.ID, row.Sigla, row.Descritivo) for row in result]
+    
+    def get_all_setor_economico(self) -> List[Tuple[int, str]]:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        query = "SELECT ID, Descritivo FROM dbo.SetorEconomico"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        conn.close()
+        return [(row.ID, row.Descritivo) for row in result]
+
+    def get_all_subsetor(self) -> List[Tuple[int, str]]:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        query = "SELECT ID, Descritivo FROM dbo.Subsetor"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        conn.close()
+        return [(row.ID, row.Descritivo) for row in result]
+
+    def get_all_segmento(self) -> List[Tuple[int, str]]:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        query = "SELECT ID, Descritivo FROM dbo.Segmento"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        conn.close()
+        return [(row.ID, row.Descritivo) for row in result]

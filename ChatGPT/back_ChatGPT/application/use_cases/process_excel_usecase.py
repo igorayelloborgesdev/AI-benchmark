@@ -19,4 +19,3 @@ class ProcessExcelUseCase(IProcessExcelUseCase):
             raise HTTPException(status_code=400, detail="Nenhum dado válido encontrado no arquivo.")
 
         empresas = await self.excel_service.extract_empresas(df)        
-

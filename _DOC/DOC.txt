@@ -126,11 +126,6 @@ DESENVOLVENDO...API consultar risco perda máxima
 DESENVOLVENDO
 
 .ChatGPT 
-API Importar dados Setorial B3
-API consultar segmento_classificacao
-API consultar setor_economico
-API consultar subsetor
-API consultar segmento
 API consultar empresas
 
 API consultar IBovespa

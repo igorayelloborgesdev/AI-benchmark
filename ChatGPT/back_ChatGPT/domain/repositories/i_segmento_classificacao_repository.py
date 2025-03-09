@@ -40,3 +40,19 @@ class ISegmentoClassificacaoRepository(ABC):
     @abstractmethod
     async def insert_many_empresas(self, empresas: List[Tuple[str, str, Optional[int], int, int, int]]) -> int:
         pass
+
+    @abstractmethod
+    def get_all_segmento_classificacao(self) -> List[Tuple[int, str, str]]:
+        pass
+
+    @abstractmethod
+    def get_all_setor_economico(self) -> List[Tuple[int, str]]:
+        pass
+
+    @abstractmethod
+    def get_all_subsetor(self) -> List[Tuple[int, str]]:
+        pass
+
+    @abstractmethod
+    def get_all_segmento(self) -> List[Tuple[int, str]]:
+        pass
