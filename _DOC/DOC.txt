@@ -62,6 +62,9 @@ DESENVOLVENDO...API consultar rentabilidade estimada
 DESENVOLVENDO...API consultar ação super/ sub - estimada
 DESENVOLVENDO...API consultar risco perda máxima
 
+...API atualizar CDI Mensal/ Diário
+...API atualizar IBovespa
+...API atualizar dados ação cada empresa Yahoo Finance
 ...API consultar IPCA
 ...API consultar IGPM
 ...API consultar Selic
@@ -126,10 +129,9 @@ DESENVOLVENDO...API consultar risco perda máxima
 DESENVOLVENDO
 
 .ChatGPT 
-API consultar empresas
 
+Criar uma interface para o caso de uso da finança 
 API consultar IBovespa
-API consultar CDI Mensal/ Diário
 API consultar dados ação cada empresa Yahoo Finance
 
 API consultar risco Beta

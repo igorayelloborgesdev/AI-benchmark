@@ -131,8 +131,15 @@ class SegmentoClassificacaoRepository(ISegmentoClassificacaoRepository):
         query = "SELECT ID, Sigla, Descritivo FROM dbo.SegmentoClassificacao"
         cursor.execute(query)
         result = cursor.fetchall()
-        conn.close()
-        return [(row.ID, row.Sigla, row.Descritivo) for row in result]
+        conn.close()        
+        return [
+            {
+                "ID": row.ID,
+                "Sigla": row.Sigla,
+                "Descritivo": row.Descritivo                
+            }
+            for row in result
+        ]
     
     def get_all_setor_economico(self) -> List[Tuple[int, str]]:
         conn = get_db_connection()
@@ -141,7 +148,13 @@ class SegmentoClassificacaoRepository(ISegmentoClassificacaoRepository):
         cursor.execute(query)
         result = cursor.fetchall()
         conn.close()
-        return [(row.ID, row.Descritivo) for row in result]
+        return [
+            {
+                "ID": row.ID,
+                "Descritivo": row.Descritivo                
+            }
+            for row in result
+        ]
 
     def get_all_subsetor(self) -> List[Tuple[int, str]]:
         conn = get_db_connection()
@@ -150,7 +163,13 @@ class SegmentoClassificacaoRepository(ISegmentoClassificacaoRepository):
         cursor.execute(query)
         result = cursor.fetchall()
         conn.close()
-        return [(row.ID, row.Descritivo) for row in result]
+        return [
+            {
+                "ID": row.ID,
+                "Descritivo": row.Descritivo                
+            }
+            for row in result
+        ]
 
     def get_all_segmento(self) -> List[Tuple[int, str]]:
         conn = get_db_connection()
@@ -158,5 +177,56 @@ class SegmentoClassificacaoRepository(ISegmentoClassificacaoRepository):
         query = "SELECT ID, Descritivo FROM dbo.Segmento"
         cursor.execute(query)
         result = cursor.fetchall()
+        conn.close()        
+        return [
+            {
+                "ID": row.ID,
+                "Descritivo": row.Descritivo                
+            }
+            for row in result
+        ]
+    
+    def get_empresa_by_codigo(self, codigo: Optional[str] = None) -> List[Tuple[int, str, str, str, str, str, str]]:
+        """Busca empresas e permite filtragem pelo código."""
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = """
+        SELECT 
+            e.ID, 
+            e.Nome, 
+            e.Codigo, 
+            sc.Sigla AS SegmentoClassificacao, 
+            se.Descritivo AS SetorEconomico, 
+            ss.Descritivo AS Subsetor, 
+            s.Descritivo AS Segmento
+        FROM dbo.Empresa e
+        LEFT JOIN dbo.SegmentoClassificacao sc ON e.SegmentoClassificacaoID = sc.ID
+        INNER JOIN dbo.SetorEconomico se ON e.SetorEconomicoID = se.ID
+        INNER JOIN dbo.Subsetor ss ON e.SubsetorID = ss.ID
+        INNER JOIN dbo.Segmento s ON e.SegmentoID = s.ID
+        """        
+        print(codigo.upper())
+        # Adiciona filtro se um código for informado
+        if codigo:
+            query += " WHERE e.Codigo = ?"
+            cursor.execute(query, (codigo.upper(),))
+        else:
+            cursor.execute(query)
+
+        result = cursor.fetchall()
         conn.close()
-        return [(row.ID, row.Descritivo) for row in result]
+
+        return [
+            {
+                "ID": row.ID,
+                "Nome": row.Nome,
+                "Codigo": row.Codigo,
+                "SegmentoClassificacao": row.SegmentoClassificacao,
+                "SetorEconomico": row.SetorEconomico,
+                "Subsetor": row.Subsetor,
+                "Segmento": row.Segmento
+            }
+            for row in result
+        ]

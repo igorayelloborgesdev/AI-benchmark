@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 from domain.repositories.i_segmento_classificacao_repository import ISegmentoClassificacaoRepository
 
 class SectorsUseCase():
@@ -17,5 +17,8 @@ class SectorsUseCase():
     
     async def get_all_segmento(self) -> List[Tuple[int, str]]:        
         return self.repository.get_all_segmento()
+    
+    async def get_empresa_by_codigo(self, codigo: Optional[str]) -> List[Tuple[int, str, str, str, str, str, str]]:        
+        return self.repository.get_empresa_by_codigo(codigo)
     
     

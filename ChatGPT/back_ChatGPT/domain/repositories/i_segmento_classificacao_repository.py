@@ -56,3 +56,7 @@ class ISegmentoClassificacaoRepository(ABC):
     @abstractmethod
     def get_all_segmento(self) -> List[Tuple[int, str]]:
         pass
+
+    @abstractmethod
+    def get_empresa_by_codigo(self, codigo: Optional[str] = None) -> List[Tuple[int, str, str, str, str, str, str]]:
+        pass

@@ -46,3 +46,9 @@ CREATE TABLE dbo.Empresa (
     CONSTRAINT FK_Empresa_Segmento FOREIGN KEY (SegmentoID) 
         REFERENCES dbo.Segmento(ID)
 );
+
+CREATE TABLE CDI_Diario (
+    Data DATE NOT NULL,
+    Valor FLOAT NOT NULL,
+    PRIMARY KEY (Data)
+);
