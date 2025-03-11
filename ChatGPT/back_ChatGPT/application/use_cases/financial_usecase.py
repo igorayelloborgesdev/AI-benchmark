@@ -6,12 +6,12 @@ class FinancialUseCase():
     """Caso de uso para buscar e salvar os dados do CDI diário."""
 
     def __init__(self, bc_adapter: BCAdapter, cdi_repository: IFinanceRepository):
-        self.bc_adapter = bc_adapter        
+        self.bc_adapter = bc_adapter                
         self.cdi_repository = cdi_repository
 
     async def processcdidata(self) -> int:
         """Executa o processo de buscar e armazenar os dados do CDI."""        
-        data = await self.bc_adapter.fetch_cdi_data()
+        data = await self.bc_adapter.getRequest()        
         formatted_data: List[Tuple[str, float]] = [
             (entry["data"], float(entry["valor"])) for entry in data
         ]        

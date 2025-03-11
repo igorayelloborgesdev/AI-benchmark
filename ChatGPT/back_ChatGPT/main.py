@@ -7,6 +7,7 @@ from application.use_cases.sectors_usecase import SectorsUseCase
 from application.use_cases.financial_usecase import FinancialUseCase
 from infrastructure.adapters.bc_adapter import BCAdapter
 from infrastructure.repositories.finance_repository import FinanceRepository
+from infrastructure.adapters.bc_adaptee import BCAdaptee
 
 app = FastAPI()
 
@@ -14,7 +15,8 @@ app = FastAPI()
 segmento_repository = SegmentoClassificacaoRepository()
 excel_service = ExcelProcessorService(segmento_repository)
 process_excel_use_case = ProcessExcelUseCase(excel_service, segmento_repository)
-bcadapter = BCAdapter()
+bc_adaptee = BCAdaptee()
+bcadapter = BCAdapter(bc_adaptee)
 finance_repository = FinanceRepository()
 
 @app.get("/")

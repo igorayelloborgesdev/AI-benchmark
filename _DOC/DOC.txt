@@ -130,7 +130,6 @@ DESENVOLVENDO
 
 .ChatGPT 
 
-Criar uma interface para o caso de uso da finança 
 API consultar IBovespa
 API consultar dados ação cada empresa Yahoo Finance
 
