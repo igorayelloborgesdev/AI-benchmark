@@ -157,3 +157,16 @@ CREATE TABLE CDI_Diario (
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Como criar uma API para consultar os dados do IBovespa usando YFinance, por meio de um adapter (design pattern), em FastAPI e depois da consulta salvar os dados em uma tabela no banco de dados
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como fazer uma API que consulte os dados na tabela usando filtro de data inicial e final
+CREATE TABLE IBOV_Historico (
+    Data DATE NOT NULL PRIMARY KEY,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL
+);
+

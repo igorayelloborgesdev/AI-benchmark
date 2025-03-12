@@ -206,8 +206,7 @@ class SegmentoClassificacaoRepository(ISegmentoClassificacaoRepository):
         INNER JOIN dbo.SetorEconomico se ON e.SetorEconomicoID = se.ID
         INNER JOIN dbo.Subsetor ss ON e.SubsetorID = ss.ID
         INNER JOIN dbo.Segmento s ON e.SegmentoID = s.ID
-        """        
-        print(codigo.upper())
+        """                
         # Adiciona filtro se um código for informado
         if codigo:
             query += " WHERE e.Codigo = ?"

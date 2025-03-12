@@ -52,3 +52,12 @@ CREATE TABLE CDI_Diario (
     Valor FLOAT NOT NULL,
     PRIMARY KEY (Data)
 );
+
+CREATE TABLE IBOV_Historico (
+    Data DATE NOT NULL PRIMARY KEY,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL
+);

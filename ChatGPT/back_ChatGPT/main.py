@@ -5,9 +5,12 @@ from infrastructure.repositories.segmento_classificacao_repository import Segmen
 from typing import Optional
 from application.use_cases.sectors_usecase import SectorsUseCase
 from application.use_cases.financial_usecase import FinancialUseCase
+from application.use_cases.ibovespa_usecase import IBovespaUseCase
 from infrastructure.adapters.bc_adapter import BCAdapter
 from infrastructure.repositories.finance_repository import FinanceRepository
 from infrastructure.adapters.bc_adaptee import BCAdaptee
+from infrastructure.adapters.ibovespa_adapter import IBovespaAdapter
+from infrastructure.adapters.ibovespa_adaptee import IBovespaAdaptee
 
 app = FastAPI()
 
@@ -18,6 +21,8 @@ process_excel_use_case = ProcessExcelUseCase(excel_service, segmento_repository)
 bc_adaptee = BCAdaptee()
 bcadapter = BCAdapter(bc_adaptee)
 finance_repository = FinanceRepository()
+ibovespa_adaptee = IBovespaAdaptee()
+ibovespa_adapter = IBovespaAdapter(ibovespa_adaptee)
 
 @app.get("/")
 def read_root():    
@@ -72,3 +77,51 @@ async def getcdidiariobydate(
     financialUseCase = FinancialUseCase(bcadapter, finance_repository)
     result = await financialUseCase.getcdidiariobydate(data_inicial, data_final)    
     return [{"data": data, "valor": valor} for data, valor in result]    
+
+@app.get("/process-ibovespa")
+async def processibovespa(start_date: str = Query(..., description="Data inicial (YYYY-MM-DD)"),
+    end_date: str = Query(..., description="Data final (YYYY-MM-DD)")):        
+    """
+    Consulta os dados históricos do IBovespa e salva no banco de dados.
+
+    :param start_date: Data inicial no formato YYYY-MM-DD
+    :param end_date: Data final no formato YYYY-MM-DD
+    :return: Número de registros inseridos
+    """
+    try:
+        ibovespa_usecase = IBovespaUseCase(ibovespa_adapter, finance_repository)
+        inserted_records = await ibovespa_usecase.fetch_and_store_ibov_data(start_date, end_date)
+        return {"message": "Dados inseridos com sucesso!", "registros_inseridos": inserted_records}
+    except Exception as e:
+        return {"error": str(e)}
+    
+@app.get("/ibovespa/historico")
+def get_ibov_historico(
+    start_date: str = Query(..., description="Data inicial (YYYY-MM-DD)"),
+    end_date: str = Query(..., description="Data final (YYYY-MM-DD)")
+):
+    """
+    Consulta os dados históricos do IBovespa dentro de um intervalo de datas.
+
+    :param start_date: Data inicial no formato YYYY-MM-DD
+    :param end_date: Data final no formato YYYY-MM-DD
+    :return: Lista de registros encontrados
+    """
+    try:
+        ibovespa_usecase = IBovespaUseCase(ibovespa_adapter, finance_repository)
+        data = ibovespa_usecase.get_ibov_data(start_date, end_date)
+         # Converter para lista de dicionários
+        formatted_data = [
+            {
+                "Data": row[0],
+                "Abertura": row[1],
+                "Alta": row[2],
+                "Baixa": row[3],
+                "Fechamento": row[4],
+                "Volume": row[5]
+            }
+            for row in data
+        ]        
+        return {"data": formatted_data}
+    except Exception as e:
+        return {"error": str(e)}    

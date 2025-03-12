@@ -61,3 +61,55 @@ class FinanceRepository(IFinanceRepository):
         conn.close()
 
         return [(row.Data.strftime("%Y-%m-%d"), row.Valor) for row in result]
+    
+    def insert_ibov_data(self, data: List[Tuple[str, float, float, float, float, int]]) -> int:
+        """
+        Insere os dados do IBovespa na tabela IBOV_Historico.
+
+        :param data: Lista de tuplas (Data, Abertura, Alta, Baixa, Fechamento, Volume)
+        :return: Número de registros inseridos
+        """
+        if not data:
+            return 0
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        query = """
+        INSERT INTO dbo.IBOV_Historico (Data, Abertura, Alta, Baixa, Fechamento, Volume)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """
+
+        cursor.executemany(query, data)
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return len(data)
+    
+    def get_ibov_data_by_date_range(self, start_date: str, end_date: str) -> List[Tuple[str, float, float, float, float, int]]:
+        """
+        Busca os dados do IBovespa dentro de um intervalo de datas.
+
+        :param start_date: Data inicial (YYYY-MM-DD)
+        :param end_date: Data final (YYYY-MM-DD)
+        :return: Lista de tuplas (Data, Abertura, Alta, Baixa, Fechamento, Volume)
+        """
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = """
+        SELECT Data, Abertura, Alta, Baixa, Fechamento, Volume
+        FROM dbo.IBOV_Historico
+        WHERE Data BETWEEN ? AND ?
+        ORDER BY Data ASC
+        """
+
+        cursor.execute(query, (start_date, end_date))
+        result = cursor.fetchall()
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return [(row.Data, row.Abertura, row.Alta, row.Baixa, row.Fechamento, row.Volume) for row in result]
