@@ -170,3 +170,7 @@ CREATE TABLE IBOV_Historico (
     Volume BIGINT NOT NULL
 );
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como criar uma API para consultar os dados de ações listadas na Bovespa usando YFinance, por meio de um adapter (design pattern), em FastAPI e depois da consulta salvar os dados em uma tabela no banco de dados
+

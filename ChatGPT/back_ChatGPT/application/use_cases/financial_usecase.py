@@ -21,6 +21,4 @@ class FinancialUseCase():
         """
         Obtém os dados do CDI com filtro opcional de data inicial e final.
         """        
-        return self.cdi_repository.get_cdi_data(data_inicial, data_final)
-
-    
+        return self.cdi_repository.get_cdi_data(data_inicial, data_final)    

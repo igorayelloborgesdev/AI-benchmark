@@ -61,3 +61,14 @@ CREATE TABLE IBOV_Historico (
     Fechamento FLOAT NOT NULL,
     Volume BIGINT NOT NULL
 );
+
+CREATE TABLE Acao_Historico (
+    Data DATE NOT NULL,
+    Codigo VARCHAR(10) NOT NULL,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL,
+    PRIMARY KEY (Data, Codigo) -- Permite várias ações diferentes na mesma data
+);

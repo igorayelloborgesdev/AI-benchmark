@@ -11,6 +11,9 @@ from infrastructure.repositories.finance_repository import FinanceRepository
 from infrastructure.adapters.bc_adaptee import BCAdaptee
 from infrastructure.adapters.ibovespa_adapter import IBovespaAdapter
 from infrastructure.adapters.ibovespa_adaptee import IBovespaAdaptee
+from application.use_cases.yfinance_usecase import YFinanceUseCase
+from infrastructure.adapters.yfinance_adapter import YFinanceAdapter
+from infrastructure.adapters.yfinance_adaptee import YFinanceAdaptee
 
 app = FastAPI()
 
@@ -23,6 +26,8 @@ bcadapter = BCAdapter(bc_adaptee)
 finance_repository = FinanceRepository()
 ibovespa_adaptee = IBovespaAdaptee()
 ibovespa_adapter = IBovespaAdapter(ibovespa_adaptee)
+yfinance_adaptee = YFinanceAdaptee()
+yfinance_adapter = YFinanceAdapter(yfinance_adaptee)
 
 @app.get("/")
 def read_root():    
@@ -125,3 +130,17 @@ def get_ibov_historico(
         return {"data": formatted_data}
     except Exception as e:
         return {"error": str(e)}    
+    
+@app.post("/acoes/{codigo}/historico")
+def fetch_and_save_acao(codigo: str, start_date: str, end_date: str):
+    """Consulta e armazena os dados da ação no banco"""    
+    yfinanceusecase = YFinanceUseCase(yfinance_adapter, finance_repository)
+    registros = yfinanceusecase.fetch_and_save_acao(codigo, start_date, end_date)        
+    return {"mensagem": f"{registros} registros inseridos com sucesso"}
+
+@app.get("/acoes/{codigo}/historico")
+def get_acao_historico(codigo: str, start_date: str, end_date: str):
+    """Consulta os dados da ação no banco"""
+    yfinanceusecase = YFinanceUseCase(yfinance_adapter, finance_repository)
+    data = yfinanceusecase.get_acoes(codigo, start_date, end_date)
+    return {"data": [{"Data": row[0], "Codigo": row[1], "Abertura": row[2], "Alta": row[3], "Baixa": row[4], "Fechamento": row[5], "Volume": row[6]} for row in data]}    

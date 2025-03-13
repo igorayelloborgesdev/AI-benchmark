@@ -113,3 +113,43 @@ class FinanceRepository(IFinanceRepository):
         conn.close()
 
         return [(row.Data, row.Abertura, row.Alta, row.Baixa, row.Fechamento, row.Volume) for row in result]
+    
+    def insert_acao_data(self, data: List[Tuple]) -> int:
+        """Insere múltiplos registros de ações na tabela"""
+        if not data:
+            return 0  # Não insere se não houver dados
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = """
+        INSERT INTO dbo.Acao_Historico (Data, Codigo, Abertura, Alta, Baixa, Fechamento, Volume)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """
+        cursor.executemany(query, data)
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return len(data)
+    
+    def get_acoes(self, codigo: str, start_date: str, end_date: str) -> List[Tuple]:
+        """Consulta ações no banco de dados filtrando pelo código e intervalo de datas"""
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = """
+        SELECT Data, Codigo, Abertura, Alta, Baixa, Fechamento, Volume
+        FROM dbo.Acao_Historico
+        WHERE Codigo = ? AND Data BETWEEN ? AND ?
+        ORDER BY Data
+        """
+        cursor.execute(query, (codigo, start_date, end_date))
+        result = cursor.fetchall()
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return result

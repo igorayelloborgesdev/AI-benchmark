@@ -39,3 +39,13 @@ class IFinanceRepository(ABC):
         :return: Lista de tuplas (Data, Abertura, Alta, Baixa, Fechamento, Volume)
         """
         pass
+
+    @abstractmethod
+    def insert_acao_data(self, data: List[Tuple]) -> int:
+        """Insere múltiplos registros de ações na tabela"""
+        pass
+
+    @abstractmethod
+    def get_acoes(self, codigo: str, start_date: str, end_date: str) -> List[Tuple]:
+        """Consulta ações no banco de dados filtrando pelo código e intervalo de datas"""
+        pass
