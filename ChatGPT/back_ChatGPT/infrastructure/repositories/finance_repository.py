@@ -106,13 +106,24 @@ class FinanceRepository(IFinanceRepository):
         """
 
         cursor.execute(query, (start_date, end_date))
-        result = cursor.fetchall()
+        rows = cursor.fetchall()
         
         conn.commit()
         cursor.close()
         conn.close()
 
-        return [(row.Data, row.Abertura, row.Alta, row.Baixa, row.Fechamento, row.Volume) for row in result]
+        # return [(row.Data, row.Abertura, row.Alta, row.Baixa, row.Fechamento, row.Volume) for row in result]
+        return [
+            {
+                "Data": row.Data,
+                "Abertura": row.Abertura,
+                "Alta": row.Alta,
+                "Baixa": row.Baixa,
+                "Fechamento": row.Fechamento,
+                "Volume": row.Volume,
+            }
+            for row in rows
+        ]
     
     def insert_acao_data(self, data: List[Tuple]) -> int:
         """Insere múltiplos registros de ações na tabela"""
@@ -146,10 +157,21 @@ class FinanceRepository(IFinanceRepository):
         ORDER BY Data
         """
         cursor.execute(query, (codigo, start_date, end_date))
-        result = cursor.fetchall()
+        rows = cursor.fetchall()
         
         conn.commit()
         cursor.close()
         conn.close()
 
-        return result
+        return [
+            {
+                "Data": row.Data,
+                "Codigo": row.Codigo,
+                "Abertura": row.Abertura,
+                "Alta": row.Alta,
+                "Baixa": row.Baixa,
+                "Fechamento": row.Fechamento,
+                "Volume": row.Volume,
+            }
+            for row in rows
+        ]

@@ -174,3 +174,25 @@ CREATE TABLE IBOV_Historico (
 
 Como criar uma API para consultar os dados de ações listadas na Bovespa usando YFinance, por meio de um adapter (design pattern), em FastAPI e depois da consulta salvar os dados em uma tabela no banco de dados
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Preciso criar uma FastAPI usando clean archtecture que retorne o índice Beta sendo que tenho duas tabelas uma com índice Bovespa e outra com o histórico das ações sendo as tabelas
+CREATE TABLE IBOV_Historico (
+    Data DATE NOT NULL PRIMARY KEY,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL
+);
+
+CREATE TABLE Acao_Historico (
+    Data DATE NOT NULL,
+    Codigo VARCHAR(10) NOT NULL,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL,
+    PRIMARY KEY (Data, Codigo) -- Permite várias ações diferentes na mesma data
+);

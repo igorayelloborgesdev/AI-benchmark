@@ -1,6 +1,7 @@
-from fastapi import FastAPI, UploadFile, File, Depends, Query
+from fastapi import FastAPI, UploadFile, File, Depends, Query, HTTPException
 from application.use_cases.process_excel_usecase import ProcessExcelUseCase
 from domain.services.excel_processor_service import ExcelProcessorService
+from domain.services.calculo_financeiro_service import CalculoFinanceiroService
 from infrastructure.repositories.segmento_classificacao_repository import SegmentoClassificacaoRepository
 from typing import Optional
 from application.use_cases.sectors_usecase import SectorsUseCase
@@ -14,12 +15,14 @@ from infrastructure.adapters.ibovespa_adaptee import IBovespaAdaptee
 from application.use_cases.yfinance_usecase import YFinanceUseCase
 from infrastructure.adapters.yfinance_adapter import YFinanceAdapter
 from infrastructure.adapters.yfinance_adaptee import YFinanceAdaptee
+from application.use_cases.calculos_usecase import CalculoUseCase
 
 app = FastAPI()
 
 # Criando instância do serviço e do caso de uso
 segmento_repository = SegmentoClassificacaoRepository()
 excel_service = ExcelProcessorService(segmento_repository)
+calculo_financeiro_service = CalculoFinanceiroService()
 process_excel_use_case = ProcessExcelUseCase(excel_service, segmento_repository)
 bc_adaptee = BCAdaptee()
 bcadapter = BCAdapter(bc_adaptee)
@@ -144,3 +147,17 @@ def get_acao_historico(codigo: str, start_date: str, end_date: str):
     yfinanceusecase = YFinanceUseCase(yfinance_adapter, finance_repository)
     data = yfinanceusecase.get_acoes(codigo, start_date, end_date)
     return {"data": [{"Data": row[0], "Codigo": row[1], "Abertura": row[2], "Alta": row[3], "Baixa": row[4], "Fechamento": row[5], "Volume": row[6]} for row in data]}    
+
+
+@app.get("/analise_risco/{codigo}")
+def calcular_analise_risco(
+    codigo: str, 
+    data_inicio: str, 
+    data_fim: str  
+):
+    try:
+        calculousecase = CalculoUseCase(calculo_financeiro_service, finance_repository)
+        result = calculousecase.calcular_analise_risco(codigo, data_inicio, data_fim)
+        return {"codigo": codigo, "beta": result}        
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
