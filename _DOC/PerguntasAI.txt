@@ -196,3 +196,58 @@ CREATE TABLE Acao_Historico (
     Volume BIGINT NOT NULL,
     PRIMARY KEY (Data, Codigo) -- Permite várias ações diferentes na mesma data
 );
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como calcular o índice Sharpe de uma ação sendo que tenho a seguinte tabela:
+
+CREATE TABLE Acao_Historico (
+    Data DATE NOT NULL,
+    Codigo VARCHAR(10) NOT NULL,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL,
+    PRIMARY KEY (Data, Codigo) -- Permite várias ações diferentes na mesma data
+);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como calcular a volatilidade de uma ação usando a FastAPI  sendo que tenho a seguinte tabela:
+
+CREATE TABLE Acao_Historico (
+    Data DATE NOT NULL,
+    Codigo VARCHAR(10) NOT NULL,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL,
+    PRIMARY KEY (Data, Codigo) -- Permite várias ações diferentes na mesma data
+);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como calcular o retorno esperado de uma ação usando a FastAPI  sendo que tenho a seguinte tabela:
+
+CREATE TABLE Acao_Historico (
+    Data DATE NOT NULL,
+    Codigo VARCHAR(10) NOT NULL,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL,
+    PRIMARY KEY (Data, Codigo) -- Permite várias ações diferentes na mesma data
+);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+como usar o percentil (função do Excel) no python sendo que tenho os dados de um mês de uma determinada ação?
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+como selecionar os últimos dois registro da tupla def get_ibov_data_by_date_range(self, start_date: str, end_date: str) -> List[Tuple[str, float, float, float, float, int]]:
+
+historico_ibov = self.repository.get_ibov_data_by_date_range(data_inicio, data_fim)

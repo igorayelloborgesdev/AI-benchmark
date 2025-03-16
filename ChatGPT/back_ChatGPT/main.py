@@ -158,6 +158,6 @@ def calcular_analise_risco(
     try:
         calculousecase = CalculoUseCase(calculo_financeiro_service, finance_repository)
         result = calculousecase.calcular_analise_risco(codigo, data_inicio, data_fim)
-        return {"codigo": codigo, "beta": result}        
+        return {"analise": result}        
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

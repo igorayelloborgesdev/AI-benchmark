@@ -15,7 +15,7 @@ class YFinanceAdaptee:
         :return: Lista de tuplas contendo (Data, Codigo, Abertura, Alta, Baixa, Fechamento, Volume)
         """        
         stock = yf.Ticker(ticker)
-        df = stock.history(start=start_date, end=end_date)        
+        df = stock.history(start=start_date, end=end_date, auto_adjust=False)                
         if df.empty:
             return []
 

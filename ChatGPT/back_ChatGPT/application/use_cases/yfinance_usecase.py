@@ -11,7 +11,7 @@ class YFinanceUseCase:
 
     def fetch_and_save_acao(self, codigo: str, start_date: str, end_date: str) -> int:
         """Busca os dados da ação no Yahoo Finance e salva no banco"""        
-        data = self.adapter.getRequest(f"{codigo}.SA", start_date, end_date)        
+        data = self.adapter.getRequest(f"{codigo}.SA", start_date, end_date)                
         return self.finance_repository.insert_acao_data(data)        
 
     def get_acoes(self, codigo: str, start_date: str, end_date: str) -> List[Tuple]:

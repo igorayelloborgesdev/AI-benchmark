@@ -75,7 +75,6 @@ DESENVOLVENDO...API consultar risco perda máxima
 ...API Atualizar estratégia - Stop gain/ stop loss
 ...API consultar Ganhos/ perdas
 ...API consultar correlações
-...API consultar risco X retorno
 ...API consultar solver
 ...API consultar investimento carteira ações
 ...API consultar Markowitz - covariância
@@ -129,11 +128,10 @@ DESENVOLVENDO...API consultar risco perda máxima
 DESENVOLVENDO
 
 .ChatGPT 
-API consultar risco Beta
 API consultar índice Sharpe
 API consultar rentabilidade estimada
-API consultar ação super/ sub - estimada
 API consultar risco perda máxima
+API consultar ação super/ sub - estimada
 
 .Copiltot 
 API Importar dados Setorial B3
