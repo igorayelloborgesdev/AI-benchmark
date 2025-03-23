@@ -1,4 +1,4 @@
-USE MetaAIDB;
+USE ChatGPTDB;
 GO
 
 CREATE TABLE dbo.SegmentoClassificacao (

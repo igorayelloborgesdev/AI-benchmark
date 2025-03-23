@@ -17,9 +17,14 @@
 
 -----------------------------------------------------------------------
 
+Caminho WSL Docker
+C:\Users\igor8\AppData\Local\Docker\wsl\data
+C:\Users\<username>\AppData\Local\Docker\wsl\data
+
 docker-compose down
 docker-compose up --build -d
-SQL SERVER
+
+Instalar banco de dados SQL SERVER
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Your_password123" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server
 
 REINICIAR CONATINER
@@ -27,6 +32,24 @@ docker stop fastapi
 docker rm fastapi
 docker build -t fastapi-app .
 docker run --name fastapi --link sqlserver:sqlserver -p 80:80 -d fastapi-app
+
+Limpeza de cache
+docker system prune -a
+
+Remover volumes não utilizados
+docker volumes prune
+
+Monitorar o espaço usado por imagens e contêineres
+docker system df
+
+Reduzir tamanho
+diskpart
+select vdisk file="C:\Users\igor8\AppData\Local\Docker\wsl\data\ext4.vhdx"
+detach vdisk
+compact vdisk
+
+Excluir arquivos na pasta
+C:\Users\igor8\AppData\Local\Temp
 
 ---------------------------------------------------
 
@@ -127,12 +150,6 @@ DESENVOLVENDO...API consultar risco perda máxima
 
 DESENVOLVENDO
 
-.ChatGPT 
-API consultar índice Sharpe
-API consultar rentabilidade estimada
-API consultar risco perda máxima
-API consultar ação super/ sub - estimada
-
 .Copiltot 
 API Importar dados Setorial B3
 API consultar segmento_classificacao
@@ -140,9 +157,11 @@ API consultar setor_economico
 API consultar subsetor
 API consultar segmento
 API consultar empresas
-API consultar IBovespa
+
 API consultar CDI Mensal/ Diário
+API consultar IBovespa
 API consultar dados ação cada empresa Yahoo Finance
+
 API consultar risco Beta
 API consultar índice Sharpe
 API consultar rentabilidade estimada
