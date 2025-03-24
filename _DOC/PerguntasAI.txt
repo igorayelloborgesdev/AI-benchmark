@@ -139,7 +139,7 @@ def get_all_segmento(self) -> List[Tuple[int, str]]:
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Como consumir dados do seguinte endereço por meio de um adapter (design pattern) em clean archtecute usando FastAPI e salvando os dados consumidos na tabela CREATE TABLE CDI_Diario (
+Como consumir dados do seguinte endereço https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados?formato=json por meio de um adapter (design pattern) em clean archtecute usando FastAPI e salvando os dados consumidos na tabela CREATE TABLE CDI_Diario (
     Data DATE NOT NULL,
     Valor FLOAT NOT NULL,
     PRIMARY KEY (Data)

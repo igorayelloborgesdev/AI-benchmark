@@ -1,6 +1,7 @@
 from domain.repositories.i_repositorio_segmento import IRepositorioSegmento
 from decouple import config
 import pyodbc
+from typing import List, Dict
 
 class RepositorioSQL(IRepositorioSegmento):
     def __init__(self):
@@ -203,4 +204,4 @@ class RepositorioSQL(IRepositorioSegmento):
             "SetorEconomicoDescritivo": row.SetorEconomicoDescritivo,
             "SubsetorDescritivo": row.SubsetorDescritivo,
             "SegmentoDescritivo": row.SegmentoDescritivo,
-        }
+        }        
