@@ -1,3 +1,60 @@
+Considerando a seguinte arquitetura clean
+
+/app
+    /core
+        __init__.py
+        config.py
+    /domain
+        /models
+            __init__.py
+            user.py
+            stock.py
+        /repositories
+            __init__.py
+            user_repository.py
+            stock_repository.py
+        /services
+            __init__.py
+            user_service.py
+            stock_service.py
+    /application
+        /interfaces
+            __init__.py
+            user_interface.py
+            stock_interface.py
+        /use_cases
+            __init__.py
+            create_user.py
+            create_stock.py
+            get_user.py
+            get_stock.py
+    /infrastructure
+        /database
+            __init__.py
+            db.py
+        /repositories
+            __init__.py
+            sqlalchemy_user_repository.py
+            sqlalchemy_stock_repository.py
+    /api
+        __init__.py
+        deps.py
+        /v1
+            __init__.py
+            user.py
+            stock.py
+    /tests
+        __init__.py
+        test_user.py
+        test_stock.py
+    main.py
+    requirements.txt
+    Dockerfile
+    .env
+    README.md
+
+#############################################################################################################################################################
+
 Como criar uma API na FastAPI que leia um arquivo em Excel,
 leia os dados da coluna A da linha 521 até a linha 529 e salve na tabela 
 CREATE TABLE dbo.SegmentoClassificacao (

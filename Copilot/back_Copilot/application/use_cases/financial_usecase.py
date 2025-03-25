@@ -2,14 +2,18 @@ from infrastructure.adapters.bc_adapter import BCAdapter
 from infrastructure.adapters.ibovespa_adapter import IBovespaAdapter
 from infrastructure.adapters.yfinance_adapter import YFinanceAdapter
 from domain.repositories.i_repositorio_financial import IRepositorioFinancial
+from domain.services.financial_service import FinancialService
 from typing import List, Dict
 
 class FinancialUseCase():    
-    def __init__(self, bcdapter: BCAdapter, ibovespa_adapter: IBovespaAdapter, yfinance_adapter: YFinanceAdapter, repositorio_financial: IRepositorioFinancial):
+    def __init__(self, bcdapter: BCAdapter, ibovespa_adapter: IBovespaAdapter, yfinance_adapter: YFinanceAdapter, repositorio_financial: IRepositorioFinancial,
+                 financial_service: FinancialService):
         self.bcdapter = bcdapter
         self.ibovespa_adapter = ibovespa_adapter
         self.yfinance_adapter = yfinance_adapter
         self.repositorio_financial = repositorio_financial                
+        self.financial_service = financial_service
+
     async def processar_cdi(self):
         """
         Consome os dados da API e salva na tabela CDI_Diario.
@@ -64,3 +68,16 @@ class FinancialUseCase():
         # Obter os registros do repositório
         resultados = self.repositorio_financial.get_historico_por_acao_e_intervalo(codigo, start_date, end_date)
         return resultados
+    
+    def calcular_beta(self, codigo: str, start_date: str, end_date: str) -> float:
+        """
+        Calcula o índice Beta de uma ação no intervalo de datas fornecido.
+        """
+        # Obter os históricos do IBOV e da ação        
+        ibov_data  = self.repositorio_financial.get_ibov_historico_por_intervalo(start_date, end_date)
+        acao_data = self.repositorio_financial.get_historico_por_acao_e_intervalo(codigo, start_date, end_date)
+        
+        if not acao_data or not ibov_data:
+            raise ValueError("Dados insuficientes para calcular o Beta.")        
+    
+        return self.financial_service.calcular_beta(ibov_data, acao_data)

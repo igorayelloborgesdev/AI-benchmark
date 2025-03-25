@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, HTTPException, Query
 from application.use_cases.upload_excel_usecase import ProcessExcelUseCase
 from application.use_cases.financial_usecase import FinancialUseCase
 from domain.services.excel_processor_service import ExcelProcessorService
+from domain.services.financial_service import FinancialService
 from infrastructure.repositories.repositoriosql import RepositorioSQL
 from infrastructure.adapters.bc_adapter import BCAdapter
 from infrastructure.adapters.bc_adaptee import BCAdaptee
@@ -16,6 +17,7 @@ app = FastAPI()
 
 repositorio_sql = RepositorioSQL()
 excel_service = ExcelProcessorService(repositorio_sql)
+financial_service = FinancialService()
 bc_adaptee = BCAdaptee()
 bcadapter = BCAdapter(bc_adaptee)
 ibovespa_adaptee = IBovespaAdaptee()
@@ -192,3 +194,15 @@ def consultar_e_salvar_acoes(codigo: str, start_date: str, end_date: str):
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Erro interno no servidor.")
+    
+@app.get("/acoes/beta")
+def calcular_beta(codigo: str, data_inicial: str, data_final: str):
+    """
+    Calcula o índice Beta de uma ação com base nos retornos históricos.
+    """
+    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
+    try:
+        beta = financial_usecase.calcular_beta(codigo, data_inicial, data_final)
+        return {"codigo": codigo, "beta": beta, "data_inicial": data_inicial, "data_final": data_final}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao calcular o Beta: {str(e)}")
