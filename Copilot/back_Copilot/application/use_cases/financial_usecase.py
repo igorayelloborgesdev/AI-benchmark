@@ -69,15 +69,34 @@ class FinancialUseCase():
         resultados = self.repositorio_financial.get_historico_por_acao_e_intervalo(codigo, start_date, end_date)
         return resultados
     
-    def calcular_beta(self, codigo: str, start_date: str, end_date: str) -> float:
+    def calcular_analise_risco(self, codigo: str, start_date: str, end_date: str) -> float:
         """
-        Calcula o índice Beta de uma ação no intervalo de datas fornecido.
+        Calcula análise de risco de uma ação no intervalo de datas fornecido.
         """
         # Obter os históricos do IBOV e da ação        
         ibov_data  = self.repositorio_financial.get_ibov_historico_por_intervalo(start_date, end_date)
         acao_data = self.repositorio_financial.get_historico_por_acao_e_intervalo(codigo, start_date, end_date)
-        
         if not acao_data or not ibov_data:
             raise ValueError("Dados insuficientes para calcular o Beta.")        
-    
-        return self.financial_service.calcular_beta(ibov_data, acao_data)
+        beta = self.financial_service.calcular_beta(ibov_data, acao_data)
+        cdi_data = self.repositorio_financial.get_cdi_por_intervalo(start_date, end_date)
+        if len(acao_data) < 2 or not cdi_data:
+            raise ValueError("Dados insuficientes para calcular o Sharpe Ratio.")        
+        sharpe = self.financial_service.calcular_sharpe_ratio(acao_data, cdi_data)
+        fechamentos = [acao["Fechamento"] for acao in acao_data]  
+        volatilidade = self.financial_service.calcular_volatilidade(fechamentos)        
+        retorno_esperado = self.financial_service.calcular_retorno_esperado(fechamentos)
+        perda_estimada_valor_5 = self.financial_service.calcular_perda_estimada_valor(5.0, fechamentos)
+        perda_estimada_percentual_5 = self.financial_service.calcular_perda_estimada_percentual(5.0, fechamentos)        
+        is_super_estimada = self.financial_service.calcular_acao_superestimada_subestimada(ibov_data, acao_data, beta)
+
+        return {
+            "Codigo": codigo,
+            "Beta": beta,
+            "Sharpe": sharpe,
+            "Volatilidade": volatilidade,
+            "Retorno esperado": retorno_esperado,
+            "Perda estimada valor 5%": perda_estimada_valor_5,
+            "Perda estimada percentual 5%": perda_estimada_percentual_5,
+            "Super estimada": is_super_estimada
+        }

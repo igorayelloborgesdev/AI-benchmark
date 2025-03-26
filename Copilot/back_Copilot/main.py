@@ -72,7 +72,7 @@ async def processar_cdi():
     """
     Processa e salva os dados do CDI Diário.
     """
-    financial_usecase = FinancialUseCase(bcadapter, repositorio_cdi)
+    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
     await financial_usecase.processar_cdi()
     return {"message": "Dados processados e salvos com sucesso."}
 
@@ -84,7 +84,7 @@ def get_cdi_por_intervalo(
     """
     Consulta os registros de CDI Diário no intervalo de datas fornecido.
     """
-    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi)
+    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
     try:
         # Validar os parâmetros (exemplo básico)
         if not data_inicial or not data_final:
@@ -106,7 +106,7 @@ def consultar_e_salvar_ibovespa(start_date: str, end_date: str):
     """
     Consulta os dados históricos do IBovespa e os salva no banco de dados.
     """
-    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi)
+    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
     try:
         financial_usecase.consultar_e_salvar_ibovespa(start_date, end_date)
         return {"message": "Dados do IBovespa processados e salvos com sucesso."}
@@ -121,7 +121,7 @@ def get_ibov_historico(
     """
     Consulta os registros do IBOV_Historico no intervalo de datas fornecido.
     """
-    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi)
+    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
     try:
         # Validar os parâmetros básicos
         if not data_inicial or not data_final:
@@ -145,7 +145,7 @@ def consultar_e_salvar_acoes(codigo: str, start_date: str, end_date: str):
     """
     Consulta os dados históricos de uma ação listada na Bovespa e os salva no banco de dados.
     """
-    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi)
+    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
     try:
         financial_usecase.consultar_e_salvar_acoes(codigo, start_date, end_date)
         return {"message": f"Dados da ação {codigo} processados e salvos com sucesso."}
@@ -154,7 +154,7 @@ def consultar_e_salvar_acoes(codigo: str, start_date: str, end_date: str):
     
 @app.get("/acoes/historico")
 def consultar_e_salvar_acoes(codigo: str, start_date: str, end_date: str):    
-    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi)
+    financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
     #Consulta os dados de ações no YFinance e salva no banco de dados.
     
     # Validar o código da ação
@@ -195,14 +195,15 @@ def consultar_e_salvar_acoes(codigo: str, start_date: str, end_date: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Erro interno no servidor.")
     
-@app.get("/acoes/beta")
+@app.get("/acoes/analise_risco")
 def calcular_beta(codigo: str, data_inicial: str, data_final: str):
     """
     Calcula o índice Beta de uma ação com base nos retornos históricos.
     """
     financial_usecase = FinancialUseCase(bcadapter, ibovespa_adapter, yfinance_adapter, repositorio_cdi, financial_service)
     try:
-        beta = financial_usecase.calcular_beta(codigo, data_inicial, data_final)
-        return {"codigo": codigo, "beta": beta, "data_inicial": data_inicial, "data_final": data_final}
+        analise_risco = financial_usecase.calcular_analise_risco(codigo, data_inicial, data_final)
+        return {"codigo": codigo, "analise_risco": analise_risco, "data_inicial": data_inicial, "data_final": data_final}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao calcular o Beta: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erro ao calcular a análise de risco: {str(e)}")
+    
