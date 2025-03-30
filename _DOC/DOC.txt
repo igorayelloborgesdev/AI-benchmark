@@ -1,5 +1,6 @@
 .bolsa - yfinance
 .cdi diário - https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados?formato=json
+.cdi diário novo - https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados?formato=json&dataInicial=29/03/1985&dataFinal=29/03/1995
 .IPCA diário - http://ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='PRECOS12_IPCAG12')
 .IGPM diário - http://ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='IGP12_IGPMG12')
 .SELIC diário - https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json
@@ -70,21 +71,20 @@ Projeto final
 
 .Tarefas
 ..Backend (API e banco de dados)
-DESENVOLVENDO...API Importar dados Setorial B3
-DESENVOLVENDO...API consultar segmento_classificacao
-DESENVOLVENDO...API consultar setor_economico
-DESENVOLVENDO...API consultar subsetor
-DESENVOLVENDO...API consultar segmento
-DESENVOLVENDO...API consultar empresas
-DESENVOLVENDO...API consultar IBovespa
-DESENVOLVENDO...API consultar CDI Mensal/ Diário
-DESENVOLVENDO...API consultar dados ação cada empresa Yahoo Finance
-DESENVOLVENDO...API consultar risco Beta
-DESENVOLVENDO...API consultar índice Sharpe
-DESENVOLVENDO...API consultar rentabilidade estimada
-DESENVOLVENDO...API consultar ação super/ sub - estimada
-DESENVOLVENDO...API consultar risco perda máxima
-
+...API Importar dados Setorial B3
+...API consultar segmento_classificacao
+...API consultar setor_economico
+...API consultar subsetor
+...API consultar segmento
+...API consultar empresas
+...API consultar IBovespa
+...API consultar CDI Mensal/ Diário
+...API consultar dados ação cada empresa Yahoo Finance
+...API consultar risco Beta
+...API consultar índice Sharpe
+...API consultar rentabilidade estimada
+...API consultar ação super/ sub - estimada
+...API consultar risco perda máxima
 ...API atualizar CDI Mensal/ Diário
 ...API atualizar IBovespa
 ...API atualizar dados ação cada empresa Yahoo Finance
@@ -150,21 +150,16 @@ DESENVOLVENDO...API consultar risco perda máxima
 
 DESENVOLVENDO
 
-.Copiltot 
-API consultar índice Sharpe
-API consultar rentabilidade estimada
-API consultar ação super/ sub - estimada
-API consultar risco perda máxima
-
 .DeepSeek 
 API Importar dados Setorial B3
 API consultar segmento_classificacao
-API consultar setor_economico
 API consultar subsetor
+API consultar setor_economico
 API consultar segmento
 API consultar empresas
-API consultar IBovespa
 API consultar CDI Mensal/ Diário
+API consultar IBovespa
+
 API consultar dados ação cada empresa Yahoo Finance
 API consultar risco Beta
 API consultar índice Sharpe

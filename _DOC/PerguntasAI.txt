@@ -69,7 +69,18 @@ o que está dentro do parenteses DR1 deve ser salvo na coluna Sigla do banco o q
 
 Como criar um método  que leia um arquivo em Excel,
 leia os dados da coluna B da linha 9 até a linha 509 e salve na tabela 
-CREATE TABLE dbo.[SetorEconomico] (
+CREATE TABLE dbo.[SubSetor] (
+    ID INT IDENTITY(1,1) PRIMARY KEY,  -- Chave primária autoincrementada
+    Descritivo VARCHAR(255) NOT NULL   -- Nome do setor econômico
+);
+
+sendo que deve-se desconsiderar as células que estejam com o valor SUBSETOR ou valores em branco
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Como criar um método  que leia um arquivo em Excel,
+leia os dados da coluna B da linha 9 até a linha 509 e salve na tabela 
+CREATE TABLE dbo.[SubSetor] (
     ID INT IDENTITY(1,1) PRIMARY KEY,  -- Chave primária autoincrementada
     Descritivo VARCHAR(255) NOT NULL   -- Nome do setor econômico
 );
@@ -214,6 +225,15 @@ CREATE TABLE CDI_Diario (
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Como criar uma API para consultar os dados do IBovespa usando YFinance, por meio de um adapter (design pattern), em FastAPI e depois da consulta salvar os dados em uma tabela no banco de dados
+
+CREATE TABLE IBOV_Historico (
+    Data DATE NOT NULL PRIMARY KEY,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL
+);
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
