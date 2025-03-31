@@ -14,6 +14,8 @@ from datetime import date
 from infrastructure.repositories.financial_repository import FinancialRepository
 from infrastructure.adapters.ibov_adaptee import IBOVAdaptee
 from infrastructure.adapters.ibov_adapter import IBOVAdapter
+from infrastructure.adapters.yfinance_adaptee import FinanceAdaptee
+from infrastructure.adapters.yfinance_adapter import FinanceAdapter
 
 app = FastAPI()
 segmento_repository = PyODBCSegmentoRepository()
@@ -22,6 +24,8 @@ cdi_adaptee = CDIAdaptee()
 cdi_adapter = CDIAdapter(cdi_adaptee)
 ibov_adaptee = IBOVAdaptee()
 ibov_adapter = IBOVAdapter(ibov_adaptee)
+yfinance_adaptee = FinanceAdaptee()
+yfinance_adapter = FinanceAdapter(yfinance_adaptee)
 
 @app.post("/upload-segmentos/")
 async def upload_segmentos(
@@ -98,7 +102,7 @@ async def get_empresa_by_codigo(codigo: str):
 @app.post("/cdi/atualizar/")
 async def atualizar_cdi( data_inicial: Optional[date] = Query(None, description="Data inicial no formato YYYY-MM-DD"),
     data_final: Optional[date] = Query(None, description="Data final no formato YYYY-MM-DD")):
-    financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, financial_repository)
+    financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, yfinance_adapter, financial_repository)
     result = await financial_use_case.execute_fetch_and_store(data_inicial, data_final)
     if "error" in result:
         return JSONResponse(
@@ -113,7 +117,7 @@ def get_cdi_historico(
     data_final: Optional[date] = Query(None, description="Data final no formato YYYY-MM-DD")    
 ):
     try:
-        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, financial_repository)
+        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, yfinance_adapter, financial_repository)
         cdis = financial_use_case.execute_get_cdis_by_date_range(data_inicial, data_final)
         return {
             "data": cdis,
@@ -135,7 +139,7 @@ async def fetch_ibov_data(
     end_date: date = Query(..., description="Data final no formato YYYY-MM-DD")    
 ):
     try:
-        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, financial_repository)
+        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, yfinance_adapter, financial_repository)
         total_fetched, total_saved = await financial_use_case.fetch_ibov_data(start_date, end_date)
         return {
             "success": True,
@@ -164,10 +168,71 @@ async def get_historical_data(
                 status_code=400,
                 detail="Data inicial não pode ser maior que data final"
             )
-        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, financial_repository)
+        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, yfinance_adapter, financial_repository)
         return financial_use_case.get_historical_data(start_date, end_date)
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail=f"Erro ao consultar dados: {str(e)}"
         )
+    
+@app.post("/acoes/fetch/{codigo}/")
+async def fetch_acao_data(
+    codigo: str,
+    start_date: date = Query(..., description="Data inicial (YYYY-MM-DD)"),
+    end_date: date = Query(..., description="Data final (YYYY-MM-DD)")    
+):
+    try:
+        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, yfinance_adapter, financial_repository)
+        fetched, saved = await financial_use_case.fetch_acao_data(codigo, start_date, end_date)
+        return {
+            "status": "success",
+            "codigo": codigo,
+            "periodo": f"{start_date} a {end_date}",
+            "registros_baixados": fetched,
+            "registros_salvos": saved
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )    
+    
+@app.get("/acoes/historico/")
+async def get_historico_acoes(
+    codigo: Optional[str] = Query(None, description="Código da ação (ex: PETR4)"),
+    start_date: Optional[date] = Query(None, description="Data inicial (YYYY-MM-DD)"),
+    end_date: Optional[date] = Query(None, description="Data final (YYYY-MM-DD)")        
+):
+    try:
+        # Validação básica
+        if codigo and len(codigo.strip()) < 4:
+            raise HTTPException(
+                status_code=400,
+                detail="Código da ação deve ter pelo menos 4 caracteres"
+            )
+        
+        if start_date and end_date and start_date > end_date:
+            raise HTTPException(
+                status_code=400,
+                detail="Data inicial não pode ser maior que data final"
+            )
+        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, yfinance_adapter, financial_repository)
+        data = financial_use_case.get_historical_data_stock(codigo=codigo,
+            start_date=start_date,
+            end_date=end_date)
+                
+        if not data:
+            raise HTTPException(
+                status_code=404,
+                detail="Nenhum registro encontrado com os filtros especificados"
+            )
+            
+        return data
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erro interno ao consultar dados: {str(e)}"
+        )    

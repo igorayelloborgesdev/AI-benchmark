@@ -145,3 +145,91 @@ class FinancialRepository(IFinancialRepository):
         finally:
             cursor.close()
             conn.close()
+
+    def save_historical_data(self, data: List[any]) -> int:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        try:
+            query = """
+            MERGE INTO Acao_Historico AS target
+            USING (VALUES (?, ?, ?, ?, ?, ?, ?)) 
+            AS source (Codigo, Data, Abertura, Alta, Baixa, Fechamento, Volume)
+            ON target.Codigo = source.Codigo AND target.Data = source.Data
+            WHEN NOT MATCHED THEN
+                INSERT (Codigo, Data, Abertura, Alta, Baixa, Fechamento, Volume)
+                VALUES (source.Codigo, source.Data, source.Abertura, source.Alta, source.Baixa, 
+                        source.Fechamento, source.Volume);
+            """
+            
+            params = [
+                (
+                    d["codigo"], d["data"], d["abertura"], d["alta"], 
+                    d["baixa"], d["fechamento"], d["volume"]
+                )
+                for d in data
+            ]
+            
+            cursor.executemany(query, params)
+            conn.commit()
+            return cursor.rowcount
+        except Exception as e:
+            conn.rollback()
+            raise Exception(f"Erro ao salvar dados da ação: {str(e)}")
+        finally:
+            cursor.close()
+            conn.close()
+
+    def get_historical_data_stock(self,
+        codigo: Optional[str] = None,
+        start_date: Optional[date] = None,
+        end_date: Optional[date] = None):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        try:
+            query = """
+            SELECT 
+                Data, 
+                Codigo,
+                Abertura, 
+                Alta, 
+                Baixa, 
+                Fechamento, 
+                Volume 
+            FROM Acao_Historico 
+            WHERE 1=1
+            """
+            params = []
+            
+            # Filtros dinâmicos
+            if codigo:
+                query += " AND Codigo = ?"
+                params.append(codigo.upper())
+            if start_date:
+                query += " AND Data >= ?"
+                params.append(start_date)
+            if end_date:
+                query += " AND Data <= ?"
+                params.append(end_date)
+            
+            query += " ORDER BY Data DESC"                        
+            
+            cursor.execute(query, params)
+            
+            return [
+                    {
+                        "data": row.Data,
+                        "codigo": row.Codigo,
+                        "abertura": row.Abertura,
+                        "alta": row.Alta,
+                        "baixa": row.Baixa,
+                        "fechamento": row.Fechamento,
+                        "volume": row.Volume    
+                    }
+                    for row in cursor.fetchall()
+                ]
+            
+        finally:
+            cursor.close()
+            conn.close()

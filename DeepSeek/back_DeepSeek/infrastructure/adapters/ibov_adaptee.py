@@ -6,15 +6,12 @@ from datetime import datetime
 from typing import Optional
 from datetime import date
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '../../core/.env')
-load_dotenv(dotenv_path=dotenv_path)
-
 class IBOVAdaptee():        
     async def fetch_historical_data(self, data_inicial: Optional[date] = None, data_final: Optional[date] = None) -> List[Dict]:
         try:            
             # ^BVSP é o ticker do IBovespa no Yahoo Finance
             ibov = yf.Ticker("^BVSP")            
-            hist = ibov.history(start=data_inicial, end=data_final)            
+            hist = ibov.history(start=data_inicial, end=data_final)
             data = []
             for index, row in hist.iterrows():
                 IBOVDailyData = {

@@ -28,3 +28,14 @@ class IFinancialRepository(ABC):
         end_date: Optional[date] = None     
     ):
         pass
+
+    @abstractmethod
+    def save_historical_data(self, data: List[any]) -> int:
+        pass
+
+    @abstractmethod
+    def get_historical_data_stock(self,
+        codigo: Optional[str] = None,
+        start_date: Optional[date] = None,
+        end_date: Optional[date] = None):
+            pass
