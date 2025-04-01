@@ -16,6 +16,7 @@ from infrastructure.adapters.ibov_adaptee import IBOVAdaptee
 from infrastructure.adapters.ibov_adapter import IBOVAdapter
 from infrastructure.adapters.yfinance_adaptee import FinanceAdaptee
 from infrastructure.adapters.yfinance_adapter import FinanceAdapter
+from domain.services.financial_service import FinancialService
 
 app = FastAPI()
 segmento_repository = PyODBCSegmentoRepository()
@@ -236,3 +237,20 @@ async def get_historico_acoes(
             status_code=500,
             detail=f"Erro interno ao consultar dados: {str(e)}"
         )    
+    
+@app.get("/beta/{codigo}/")
+async def calculate_financial_analisis(
+    codigo: str,
+    start_date: date = Query(..., description="Data inicial (YYYY-MM-DD)"),
+    end_date: date = Query(..., description="Data final (YYYY-MM-DD)")    
+):
+    try:                
+        financial_use_case = FinancialUseCase(cdi_adapter, ibov_adapter, yfinance_adapter, financial_repository)
+        financial_service = FinancialService()
+        financial_use_case.financial_service_builder(financial_service)
+        return financial_use_case.calculate_financial_analisis(codigo, start_date, end_date)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")    
+        
