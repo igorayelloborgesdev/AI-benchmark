@@ -1,8 +1,23 @@
-from fastapi import FastAPI
+import pandas as pd
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from domain.services.process_excel_service import ProcessExcelService
+from application.use_cases.process_excel_use_cases import ProcessExcelUseCase
+from infrastructure.repositories.bovespa_repository import BovespaRepository
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():    
-    teste = 1
-    return {"Hello": "World"}
+# Rota para fazer o upload do arquivo Excel e salvar os dados
+@app.post("/upload_excel/")
+async def upload_excel(file: UploadFile = File(...)):
+    if not file.filename.endswith((".xlsx", ".xls")):
+        raise HTTPException(status_code=400, detail="Por favor, envie um arquivo Excel válido.")            
+    bovespa_repository = BovespaRepository()
+    process_excel_service = ProcessExcelService()
+    use_case = ProcessExcelUseCase(process_excel_service, bovespa_repository)
+    await use_case.process_excel_useCase(file)
+
+    try:       
+        return {"message": "Dados do Excel processados e salvos com sucesso!"}
+
+    except Exception as e:       
+        raise HTTPException(status_code=500, detail=f"Erro ao processar o arquivo: {str(e)}")
