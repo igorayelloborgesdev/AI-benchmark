@@ -79,13 +79,13 @@ sendo que deve-se desconsiderar as células que estejam com o valor SUBSETOR ou 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Como criar um método  que leia um arquivo em Excel,
-leia os dados da coluna B da linha 9 até a linha 509 e salve na tabela 
-CREATE TABLE dbo.[SubSetor] (
+leia os dados da coluna A da linha 9 até a linha 509 e salve na tabela 
+CREATE TABLE dbo.[SetorEconomico] (
     ID INT IDENTITY(1,1) PRIMARY KEY,  -- Chave primária autoincrementada
     Descritivo VARCHAR(255) NOT NULL   -- Nome do setor econômico
 );
 
-sendo que deve-se desconsiderar as células que estejam com o valor SUBSETOR ou valores em branco
+sendo que deve-se desconsiderar as células que estejam com o valor SETOR ECONÔMICO ou valores em branco
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 

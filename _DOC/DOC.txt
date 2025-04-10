@@ -153,9 +153,10 @@ DESENVOLVENDO
 .Gemini 
 API Importar dados Setorial B3
 API consultar segmento_classificacao
-API consultar setor_economico
 API consultar subsetor
+API consultar setor_economico
 API consultar segmento
+
 API consultar empresas
 
 API consultar CDI Mensal/ Diário

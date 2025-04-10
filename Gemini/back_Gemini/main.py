@@ -21,3 +21,31 @@ async def upload_excel(file: UploadFile = File(...)):
 
     except Exception as e:       
         raise HTTPException(status_code=500, detail=f"Erro ao processar o arquivo: {str(e)}")
+    
+@app.get("/segmentos-classificacao")
+def get_all_segmentos_classifcacao():
+    bovespa_repository = BovespaRepository()
+    process_excel_service = ProcessExcelService()
+    use_case = ProcessExcelUseCase(process_excel_service, bovespa_repository)
+    return use_case.get_all_segmentos_classifcacao()    
+
+@app.get("/subsetores")
+def get_all_subsetores():
+    bovespa_repository = BovespaRepository()
+    process_excel_service = ProcessExcelService()
+    use_case = ProcessExcelUseCase(process_excel_service, bovespa_repository)
+    return use_case.get_all_subsetores()    
+
+@app.get("/setores")
+def get_all_setores():
+    bovespa_repository = BovespaRepository()
+    process_excel_service = ProcessExcelService()
+    use_case = ProcessExcelUseCase(process_excel_service, bovespa_repository)
+    return use_case.get_all_setores()    
+
+@app.get("/segmentos")
+def get_all_segmentos():
+    bovespa_repository = BovespaRepository()
+    process_excel_service = ProcessExcelService()
+    use_case = ProcessExcelUseCase(process_excel_service, bovespa_repository)
+    return use_case.get_all_segmentos()    
