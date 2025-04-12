@@ -1,3 +1,4 @@
+from domain.services.financial_service import FinancialService
 import httpx
 import pandas as pd
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query
@@ -20,6 +21,7 @@ ibov_adaptee = IBOVAdaptee()
 ibov_adapter = IBOVAdapter(ibov_adaptee)
 finance_adaptee = FinanceAdaptee()
 finance_adapter = FinanceAdapter(finance_adaptee)
+financial_service = FinancialService()
 
 # Rota para fazer o upload do arquivo Excel e salvar os dados
 @app.post("/upload_excel/")
@@ -155,3 +157,21 @@ def read_acao_historico(
     if not historico:
         raise HTTPException(status_code=404, detail="Histórico da ação não encontrado para o período especificado.")
     return historico
+
+@app.get("/acoes/{codigo}/sharpe")
+async def calculate_acao_sharpe_ratio(
+    codigo: str = Query(..., description="Código da ação (ex: PETR4)"),
+    data_inicial: date = Query(..., description="Data inicial para o cálculo (YYYY-MM-DD)"),
+    data_final: date = Query(..., description="Data final para o cálculo (YYYY-MM-DD)")
+):
+    """
+    Calcula o Índice Sharpe de uma ação específica dentro do intervalo de datas.
+    """
+    try:        
+        bovespa_repository = BovespaRepository()
+        use_case = FinancialUseCase(cdi_adapter, ibov_adapter, finance_adapter, bovespa_repository)
+        use_case.financial_service_builder(financial_service)
+        result = await use_case.calculate_financial_analisis(codigo, data_inicial, data_final)
+        return {"message": result}                
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

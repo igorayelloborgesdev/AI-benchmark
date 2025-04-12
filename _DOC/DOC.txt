@@ -151,10 +151,6 @@ Projeto final
 DESENVOLVENDO
 
 .Gemini 
-API consultar empresas
-API consultar CDI Mensal/ Diário
-API consultar IBovespa
-API consultar dados ação cada empresa Yahoo Finance
 
 API consultar risco Beta
 API consultar índice Sharpe
