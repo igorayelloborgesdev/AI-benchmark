@@ -207,7 +207,7 @@ def get_all_segmento(self) -> List[Tuple[int, str]]:
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Como consumir dados do seguinte endereço https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados?formato=json por meio de um adapter (design pattern) em clean archtecute usando FastAPI e salvando os dados consumidos na tabela CREATE TABLE CDI_Diario (
+Como consumir dados do seguinte endereço https://api.bcb.gov.br/dados/serie/bcdata.sgs.12/dados?formato=json&dataInicial=08/04/2015&dataFinal=08/04/2025 por meio de um adapter (design pattern) em clean archtecute usando FastAPI e salvando os dados consumidos na tabela CREATE TABLE CDI_Diario (
     Data DATE NOT NULL,
     Valor FLOAT NOT NULL,
     PRIMARY KEY (Data)
@@ -250,6 +250,17 @@ CREATE TABLE IBOV_Historico (
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Como criar uma API para consultar os dados de ações listadas na Bovespa usando YFinance, por meio de um adapter (design pattern), em FastAPI e depois da consulta salvar os dados em uma tabela no banco de dados
+
+CREATE TABLE Acao_Historico (
+    Data DATE NOT NULL,
+    Codigo VARCHAR(10) NOT NULL,
+    Abertura FLOAT NOT NULL,
+    Alta FLOAT NOT NULL,
+    Baixa FLOAT NOT NULL,
+    Fechamento FLOAT NOT NULL,
+    Volume BIGINT NOT NULL,
+    PRIMARY KEY (Data, Codigo) -- Permite várias ações diferentes na mesma data
+);
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
