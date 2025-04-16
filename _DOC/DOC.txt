@@ -152,15 +152,15 @@ DESENVOLVENDO
 
 .Meta AI 
 API Importar dados Setorial B3
-API consultar segmento_classificacao
-
 API consultar setor_economico
 API consultar subsetor
 API consultar segmento
 API consultar empresas
-API consultar IBovespa
+
 API consultar CDI Mensal/ Diário
+API consultar IBovespa
 API consultar dados ação cada empresa Yahoo Finance
+
 API consultar risco Beta
 API consultar índice Sharpe
 API consultar rentabilidade estimada
