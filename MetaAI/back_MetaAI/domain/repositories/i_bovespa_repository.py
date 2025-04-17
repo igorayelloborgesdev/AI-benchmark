@@ -57,3 +57,27 @@ class IBovespaRepository(ABC):
     @abstractmethod
     def get_empresa_by_codigo(self, codigo):
         pass
+
+    @abstractmethod
+    def save_cdi_data(self, cdi_data):
+        pass
+
+    @abstractmethod
+    def get_cdi_data(self, data_inicial, data_final):
+        pass
+
+    @abstractmethod
+    def save_ibov_data(self, data):
+        pass
+
+    @abstractmethod
+    def get_ibov_data(self, data_inicial: str, data_final: str):
+        pass
+
+    @abstractmethod
+    def save_acoes_data(self, data, codigo):
+        pass
+
+    @abstractmethod
+    def get_acao_data(self, codigo: str, start_date: str, end_date: str):
+        pass

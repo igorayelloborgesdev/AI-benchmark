@@ -1,6 +1,7 @@
 import pyodbc
 from domain.repositories.i_bovespa_repository import IBovespaRepository
 from infrastructure.database.db_connection import get_db_connection
+from datetime import datetime
 
 class BovespaRepository(IBovespaRepository):
     def __init__(self):
@@ -191,3 +192,127 @@ class BovespaRepository(IBovespaRepository):
             empresas.append(empresa)
         conn.close()
         return empresas
+    
+    def save_cdi_data(self, cdi_data):
+        try:            
+            conn = pyodbc.connect(self.conn_str)
+            cursor = conn.cursor()
+            data_to_insert = []
+            for d in cdi_data:
+                data = datetime.strptime(d['data'], '%d/%m/%Y').strftime('%Y-%m-%d')
+                data_to_insert.append((data, d['valor']))
+            cursor.executemany('''
+                INSERT INTO CDI_Diario (Data, Valor)
+                VALUES (?, ?)
+            ''', data_to_insert)            
+            conn.commit()
+        except Exception as e:
+            print(f"Erro ao inserir dados: {e}")
+            conn.rollback()
+        finally:            
+            conn.close()
+
+    def get_cdi_data(self, data_inicial, data_final):
+        try:
+            conn = pyodbc.connect(self.conn_str)
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT Data, Valor
+                FROM CDI_Diario
+                WHERE Data BETWEEN ? AND ?
+            """, (data_inicial, data_final))
+            rows = cursor.fetchall()
+            cdi_data = []
+            for row in rows:
+                cdi = {'data': row[0].strftime('%d/%m/%Y'), 'valor': row[1]}
+                cdi_data.append(cdi)
+            return cdi_data
+        except Exception as e:
+            return {"error": str(e)}
+        finally:
+            conn.close()
+
+    def save_ibov_data(self, data):
+        try:            
+            conn = pyodbc.connect(self.conn_str)
+            cursor = conn.cursor()            
+            for row in data:
+                 cursor.execute("""
+                            IF NOT EXISTS (SELECT 1 FROM IBOV_Historico WHERE Data = ?)
+                            INSERT INTO IBOV_Historico (Data, Abertura, Alta, Baixa, Fechamento, Volume)
+                            VALUES (?, ?, ?, ?, ?, ?)
+                        """, (row['Data'], row['Data'], row['Abertura'], row['Alta'], row['Baixa'], row['Fechamento'], row['Volume']))
+            conn.commit()
+        except Exception as e:
+            print(f"Erro ao inserir dados: {e}")
+            conn.rollback()
+        finally:            
+            conn.close()
+
+    def get_ibov_data(self, data_inicial: str, data_final: str):
+        try:
+            conn = pyodbc.connect(self.conn_str)
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT Data, Abertura, Alta, Baixa, Fechamento, Volume
+                FROM IBOV_Historico
+                WHERE Data BETWEEN ? AND ?
+            """, (data_inicial, data_final))
+            rows = cursor.fetchall()
+            ibov_historico = []
+            for row in rows:
+                ibov = {
+                        "data": row[0],
+                        "abertura": row[1],
+                        "alta": row[2],
+                        "baixa": row[3],
+                        "fechamento": row[4],
+                        "volume": row[5]}
+                ibov_historico.append(ibov)
+            return ibov_historico
+        except Exception as e:
+            return {"error": str(e)}
+        finally:
+            conn.close()
+
+    def save_acoes_data(self, data, codigo):
+        try:            
+            conn = pyodbc.connect(self.conn_str)
+            cursor = conn.cursor()            
+            for row in data:
+                 cursor.execute("""                             
+                            INSERT INTO Acao_Historico (Data, Codigo, Abertura, Alta, Baixa, Fechamento, Volume)
+                            VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """, (row['data'], codigo, row['abertura'], row['alta'], row['baixa'], row['fechamento'], row['volume']))
+            conn.commit()
+        except Exception as e:
+            print(f"Erro ao inserir dados: {e}")
+            conn.rollback()
+        finally:            
+            conn.close()
+
+    def get_acao_data(self, codigo: str, start_date: str, end_date: str):
+        try:
+            conn = pyodbc.connect(self.conn_str)
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT Data, Codigo, Abertura, Alta, Baixa, Fechamento, Volume
+                FROM Acao_Historico
+                WHERE Codigo = ? AND Data BETWEEN ? AND ?
+            """, (codigo, start_date, end_date))
+            rows = cursor.fetchall()
+            ibov_historico = []
+            for row in rows:
+                ibov = {
+                        "data": row[0],
+                        "abertura": row[1],
+                        "alta": row[2],
+                        "baixa": row[3],
+                        "fechamento": row[4],
+                        "volume": row[5]}
+                ibov_historico.append(ibov)
+            return ibov_historico
+        except Exception as e:
+            return {"error": str(e)}
+        finally:
+            conn.close()
