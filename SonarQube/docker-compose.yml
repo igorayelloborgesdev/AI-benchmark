@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  sonarqube:
+    image: sonarqube:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli
+    depends_on:
+      - sonarqube
+    environment:
+      - SONAR_HOST_URL=http://sonarqube:9000
+      - SONAR_TOKEN=squ_cdf0e39372ecce0335754a49370a9cfae9a00522
+    volumes:
+      - .:/usr/src
+    entrypoint: ["sleep", "infinity"]
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:

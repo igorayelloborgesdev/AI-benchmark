@@ -1,0 +1,21 @@
+version: '3.4'
+services:
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "8004:8004"
+      - "5678:5678" # Porta para o debug
+    command: ["python", "-m", "debugpy", "--wait-for-client", "--listen", "0.0.0.0:5678", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8004", "--reload"]
+    environment:
+      DATABASE_URL: 'DRIVER={ODBC Driver 17 for SQL Server};SERVER=sqlserver;DATABASE=MetaAIDB;UID=sa;PWD=Your_password123;Timeout=30'
+    # Remova o depends_on se não quiser que o Compose tente gerenciar o sqlserver
+    networks:
+      - metaai_network # Nome da rede criada pelo Compose
+
+networks:
+  metaai_network:
+    driver: bridge

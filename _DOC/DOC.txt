@@ -148,14 +148,4 @@ Projeto final
 
 ---------------------------------------------------
 
-DESENVOLVENDO
-
-.Meta AI 
-API consultar CDI Mensal/ Diário
-API consultar IBovespa
-API consultar dados ação cada empresa Yahoo Finance
-API consultar risco Beta
-API consultar índice Sharpe
-API consultar rentabilidade estimada
-API consultar ação super/ sub - estimada
-API consultar risco perda máxima
+.Escrever resultados provisórios
